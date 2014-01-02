@@ -70,7 +70,7 @@ bool GMS::CheckComponentIDHasBeenExisted(int id){
 }
 //取得所有Group
 Groups GMS::GetGroups(){
-    return this->model.getGetGroups();
+    return this->model.GetGroups();
 }
 
 

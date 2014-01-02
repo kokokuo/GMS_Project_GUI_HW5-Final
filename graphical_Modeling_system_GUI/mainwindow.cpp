@@ -6,8 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setFixedSize(800,600);
-    view = new DrawView(&gmsModel); //取得GMSModel
+    this->setFixedSize(1024,768);
+    view = new DrawView(&gms); //取得GMSModel
     this->setCentralWidget(&scrollArea);
     scrollArea.setWidget(view);
     //透過此行讓放在ScrollArea中的Widget可以與scrollArea一起縮放,不過便不會有Scrollbar的出現
@@ -42,11 +42,11 @@ void MainWindow::OnOpenFileButtonClicked(){
     fileName = QFileDialog::getOpenFileName(this,tr("Open GMS XML File"),
                                             fileDir.path(),tr("XML Files (*.xml)"));
     //載入檔案
-    int code = gmsModel.LoadXMLFormatRecord(fileName.toLocal8Bit().constData());
+    int code = gms.LoadXMLFormatRecord(fileName.toLocal8Bit().constData());
     //測試輸出
     if(code == XMLErrorCode::OK){
 
-        vector<Component*> components = this->gmsModel.GetComponents().GetAllComponent();
+        vector<Component*> components = this->gms.GetComponents().GetAllComponent();
         cout << "Components:" << endl;
         cout << "------------------------------------------------------" <<endl;
         cout << "   Type   |   ID    |    Name    " <<endl;
@@ -56,9 +56,9 @@ void MainWindow::OnOpenFileButtonClicked(){
             printf("    %c     |   %2d    |    %s\n",(*it)->GetType()[0],(*it)->GetID(),(*it)->GetName().c_str());
         }
     }
-    if(this->gmsModel.GetGroups().GetAllGroups().size() >0){
+    if(this->gms.GetGroups().GetAllGroups().size() >0){
 
-        map<string,Group*> groups = this->gmsModel.GetGroups().GetAllGroups();
+        map<string,Group*> groups = this->gms.GetGroups().GetAllGroups();
         cout << "Groups:" << endl;
         cout << "------------------------------------------------------" <<endl;
         cout << "   GID   |   Name    |    Member    " <<endl;

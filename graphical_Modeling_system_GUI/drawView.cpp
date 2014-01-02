@@ -97,7 +97,7 @@ void DrawView::SetComponentsDrawPostion(){
                 drawComponents[i]->SetWidth(DrawComponentData::CUBE_WIDTH);
                 drawComponents[i]->SetHeight(DrawComponentData::CUBE_HEIGHT);
             }
-            else if(tdrawComponents[i]->GetType() == DrawComponentData::PyramidType){
+            else if(drawComponents[i]->GetType() == DrawComponentData::PyramidType){
                 drawComponents[i]->SetWidth(DrawComponentData::PYRAMID_WIDTH);
                 drawComponents[i]->SetHeight(DrawComponentData::PYRAMID_HEIGHT);
             }
