@@ -7,6 +7,7 @@
 #include <map>
 #include <vector>
 #include "gmsModel.h"
+#include "gms.h"
 #include "xmlErrorCode.h"
 #include "drawView.h"
 
@@ -28,7 +29,7 @@ private:
     Ui::MainWindow *ui;
     //fileName
     QString fileName;
-    GMSModel gmsModel;
+    GMS gms;
     DrawView* view;
     QScrollArea scrollArea;
 private slots:

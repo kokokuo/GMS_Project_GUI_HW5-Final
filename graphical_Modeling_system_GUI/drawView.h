@@ -6,7 +6,7 @@
 #include "component.h"
 #include <map>
 #include <vector>
-#include "gmsModel.h"
+#include "gms.h"
 
 //紀錄一些資料與參數
 class DrawComponentData{
@@ -40,7 +40,7 @@ public:
 class DrawView : public QWidget
 {
 public:
-    DrawView(GMSModel* gmsModel);
+    DrawView(GMS* gmsPtr);
     //設定顯示在畫布上的初始位置
     void SetComponentsDrawPostion(); //設定Component座標
     void SetGroupsDrawPostion(); //設定Group座標
@@ -55,7 +55,7 @@ private:
     Group* dragGroup; //紀錄被拖移的Group
     QPoint componentStartPoint; //記錄Component拖移的前一個座標
     QPoint groupStartPoint; //記錄Group拖移的前一個座標
-    GMSModel* model;
+    GMS* gms;
 
 };
 
