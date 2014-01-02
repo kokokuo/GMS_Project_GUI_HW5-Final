@@ -31,10 +31,10 @@ private:
     QString fileName;
     GMS gms;
     DrawView* view;
-    QScrollArea scrollArea;
 private slots:
     //When Click OpenFolder Action Control,it will have a slot OnOpenFileButtonClicked() and go here.
     void OnOpenFileButtonClicked();
+    void OnSaveFileButtonClicked();
 };
 
 #endif // MAINWINDOW_H

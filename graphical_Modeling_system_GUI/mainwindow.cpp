@@ -8,12 +8,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setFixedSize(1024,768);
     view = new DrawView(&gms); //取得GMSModel
-    this->setCentralWidget(&scrollArea);
-    scrollArea.setWidget(view);
+    this->setCentralWidget(ui->drawViewScrollArea);
+    ui->drawViewScrollArea->setWidget(view);
     //透過此行讓放在ScrollArea中的Widget可以與scrollArea一起縮放,不過便不會有Scrollbar的出現
     //scrollArea.setWidgetResizable(true);
-    scrollArea.horizontalScrollBar()->setValue(100);
-    scrollArea.verticalScrollBar()->setValue(100);
+
+    //設定ScrollArea的固定高寬 讓他不要跟著Widget一起變動,然後再設定卷軸
+    //Widget再設定更大的寬高(要用SetFixedSize才行) 既可以產生卷軸
+    ui->drawViewScrollArea->setFixedSize(770,660);
+    ui->drawViewScrollArea->horizontalScrollBar()->setValue(100);
+    ui->drawViewScrollArea->verticalScrollBar()->setValue(100);
 
 
     //Register synchronous event(SINGAL & SLOT) to close MainWindow
@@ -26,8 +30,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionOpenByMenuBar,SIGNAL(triggered()),this,SLOT(OnOpenFileButtonClicked()));
     QObject::connect(ui->actionOpenFolderByToolBar,SIGNAL(triggered()),this,SLOT(OnOpenFileButtonClicked()));
 
+    //save
+     QObject::connect(ui->actionOpenFolderByToolBar,SIGNAL(triggered()),this,SLOT(OnSaveFileButtonClicked()));
 
     view->update();
+
 }
 
 MainWindow::~MainWindow()
@@ -73,5 +80,9 @@ void MainWindow::OnOpenFileButtonClicked(){
     //更新畫面
     view->update();
 }
+//存檔案
+void MainWindow::OnSaveFileButtonClicked(){
 
+
+}
 

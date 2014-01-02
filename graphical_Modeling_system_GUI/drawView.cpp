@@ -26,7 +26,8 @@ float DrawComponentData::GROUP_DIFF_Y = 50;
 
 DrawView::DrawView(GMS *gmsPtr)
 {
-    resize(1980,1080);
+
+    setFixedSize(1980,1080);
     this->gms = gmsPtr;
     installEventFilter(this);
     isComponentPressed = false;

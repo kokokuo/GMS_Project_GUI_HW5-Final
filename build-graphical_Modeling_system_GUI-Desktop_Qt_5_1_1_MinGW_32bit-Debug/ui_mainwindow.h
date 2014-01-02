@@ -14,9 +14,11 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -30,9 +32,23 @@ public:
     QAction *actionExitByMenuBar;
     QAction *actionOpenFolderByToolBar;
     QAction *actionExitByToolBar;
+    QAction *actionAdd_Group;
+    QAction *actionRedo;
+    QAction *actionUndo;
+    QAction *actionCube;
+    QAction *actionPyramid;
+    QAction *actionSphere;
+    QAction *actionLine;
+    QAction *actionSave;
     QWidget *centralWidget;
+    QScrollArea *drawViewScrollArea;
+    QWidget *scrollAreaWidgetContents;
+    QListWidget *groupsListWidget;
+    QListWidget *componentsListWidget;
     QMenuBar *menuBar;
     QMenu *menuFile;
+    QMenu *menuEdit;
+    QMenu *menuAdd_Component;
     QStatusBar *statusBar;
     QToolBar *mainToolBar;
 
@@ -59,14 +75,48 @@ public:
         actionExitByToolBar = new QAction(MainWindow);
         actionExitByToolBar->setObjectName(QStringLiteral("actionExitByToolBar"));
         actionExitByToolBar->setIcon(icon1);
+        actionAdd_Group = new QAction(MainWindow);
+        actionAdd_Group->setObjectName(QStringLiteral("actionAdd_Group"));
+        actionRedo = new QAction(MainWindow);
+        actionRedo->setObjectName(QStringLiteral("actionRedo"));
+        actionUndo = new QAction(MainWindow);
+        actionUndo->setObjectName(QStringLiteral("actionUndo"));
+        actionCube = new QAction(MainWindow);
+        actionCube->setObjectName(QStringLiteral("actionCube"));
+        actionPyramid = new QAction(MainWindow);
+        actionPyramid->setObjectName(QStringLiteral("actionPyramid"));
+        actionSphere = new QAction(MainWindow);
+        actionSphere->setObjectName(QStringLiteral("actionSphere"));
+        actionLine = new QAction(MainWindow);
+        actionLine->setObjectName(QStringLiteral("actionLine"));
+        actionSave = new QAction(MainWindow);
+        actionSave->setObjectName(QStringLiteral("actionSave"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        drawViewScrollArea = new QScrollArea(centralWidget);
+        drawViewScrollArea->setObjectName(QStringLiteral("drawViewScrollArea"));
+        drawViewScrollArea->setGeometry(QRect(10, 10, 711, 661));
+        drawViewScrollArea->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 709, 659));
+        drawViewScrollArea->setWidget(scrollAreaWidgetContents);
+        groupsListWidget = new QListWidget(centralWidget);
+        groupsListWidget->setObjectName(QStringLiteral("groupsListWidget"));
+        groupsListWidget->setGeometry(QRect(740, 10, 251, 281));
+        componentsListWidget = new QListWidget(centralWidget);
+        componentsListWidget->setObjectName(QStringLiteral("componentsListWidget"));
+        componentsListWidget->setGeometry(QRect(740, 330, 256, 192));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 1024, 25));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
+        menuEdit = new QMenu(menuBar);
+        menuEdit->setObjectName(QStringLiteral("menuEdit"));
+        menuAdd_Component = new QMenu(menuEdit);
+        menuAdd_Component->setObjectName(QStringLiteral("menuAdd_Component"));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
@@ -76,8 +126,18 @@ public:
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
 
         menuBar->addAction(menuFile->menuAction());
+        menuBar->addAction(menuEdit->menuAction());
         menuFile->addAction(actionOpenByMenuBar);
+        menuFile->addAction(actionSave);
         menuFile->addAction(actionExitByMenuBar);
+        menuEdit->addAction(menuAdd_Component->menuAction());
+        menuEdit->addAction(actionAdd_Group);
+        menuEdit->addAction(actionRedo);
+        menuEdit->addAction(actionUndo);
+        menuAdd_Component->addAction(actionCube);
+        menuAdd_Component->addAction(actionPyramid);
+        menuAdd_Component->addAction(actionSphere);
+        menuAdd_Component->addAction(actionLine);
         mainToolBar->addAction(actionOpenFolderByToolBar);
         mainToolBar->addAction(actionExitByToolBar);
 
@@ -93,7 +153,17 @@ public:
         actionExitByMenuBar->setText(QApplication::translate("MainWindow", "Exit", 0));
         actionOpenFolderByToolBar->setText(QApplication::translate("MainWindow", "Open", 0));
         actionExitByToolBar->setText(QApplication::translate("MainWindow", "Exit", 0));
+        actionAdd_Group->setText(QApplication::translate("MainWindow", "Add Group", 0));
+        actionRedo->setText(QApplication::translate("MainWindow", "Redo", 0));
+        actionUndo->setText(QApplication::translate("MainWindow", "Undo", 0));
+        actionCube->setText(QApplication::translate("MainWindow", "Cube", 0));
+        actionPyramid->setText(QApplication::translate("MainWindow", "Pyramid", 0));
+        actionSphere->setText(QApplication::translate("MainWindow", "Sphere", 0));
+        actionLine->setText(QApplication::translate("MainWindow", "Line", 0));
+        actionSave->setText(QApplication::translate("MainWindow", "Save", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
+        menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", 0));
+        menuAdd_Component->setTitle(QApplication::translate("MainWindow", "Add Component", 0));
     } // retranslateUi
 
 };
