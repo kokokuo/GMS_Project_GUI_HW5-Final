@@ -40,6 +40,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //save
     QObject::connect(ui->actionSaveByMenuBar,SIGNAL(triggered()),this,SLOT(OnSaveFileButtonClicked()));
 
+    //AddComponent
+    QObject::connect(ui->actionAddCube,SIGNAL(triggered()),this,SLOT(OnAddCubeComponentClicked()));
+    QObject::connect(ui->actionAddPyramid,SIGNAL(triggered()),this,SLOT(OnAddPyramidComponentClicked()));
+    QObject::connect(ui->actionAddSphere,SIGNAL(triggered()),this,SLOT(OnAddSphereComponentClicked()));
+    QObject::connect(ui->actionAddLine,SIGNAL(triggered()),this,SLOT(OnAddLineComponentClicked()));
+
     view->update();
 
 }
@@ -108,3 +114,18 @@ void MainWindow::OnSaveFileButtonClicked(){
 
 }
 
+void MainWindow::OnAddCubeComponentClicked(){
+    AddComponentDialog dialog;
+    dialog.setModal(true);
+    dialog.exec();
+    cout << "\nGet input :" << dialog.GetInputText() << endl;
+}
+void MainWindow::OnAddPyramidComponentClicked(){
+
+}
+void MainWindow::OnAddSphereComponentClicked(){
+
+}
+void MainWindow::OnAddLineComponentClicked(){
+
+}

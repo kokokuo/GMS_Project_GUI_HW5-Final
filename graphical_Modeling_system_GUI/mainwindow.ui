@@ -43,7 +43,7 @@
       <x>740</x>
       <y>10</y>
       <width>251</width>
-      <height>281</height>
+      <height>241</height>
      </rect>
     </property>
    </widget>
@@ -51,9 +51,9 @@
     <property name="geometry">
      <rect>
       <x>740</x>
-      <y>330</y>
+      <y>280</y>
       <width>256</width>
-      <height>281</height>
+      <height>241</height>
      </rect>
     </property>
    </widget>
@@ -83,13 +83,13 @@
      <property name="title">
       <string>Add Component</string>
      </property>
-     <addaction name="actionCube"/>
-     <addaction name="actionPyramid"/>
-     <addaction name="actionSphere"/>
-     <addaction name="actionLine"/>
+     <addaction name="actionAddCube"/>
+     <addaction name="actionAddPyramid"/>
+     <addaction name="actionAddSphere"/>
+     <addaction name="actionAddLine"/>
     </widget>
     <addaction name="menuAdd_Component"/>
-    <addaction name="actionAdd_Group"/>
+    <addaction name="actionAddGroup"/>
     <addaction name="actionRedo"/>
     <addaction name="actionUndo"/>
    </widget>
@@ -146,7 +146,7 @@
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionAdd_Group">
+  <action name="actionAddGroup">
    <property name="text">
     <string>Add Group</string>
    </property>
@@ -161,22 +161,22 @@
     <string>Undo</string>
    </property>
   </action>
-  <action name="actionCube">
+  <action name="actionAddCube">
    <property name="text">
     <string>Cube</string>
    </property>
   </action>
-  <action name="actionPyramid">
+  <action name="actionAddPyramid">
    <property name="text">
     <string>Pyramid</string>
    </property>
   </action>
-  <action name="actionSphere">
+  <action name="actionAddSphere">
    <property name="text">
     <string>Sphere</string>
    </property>
   </action>
-  <action name="actionLine">
+  <action name="actionAddLine">
    <property name="text">
     <string>Line</string>
    </property>

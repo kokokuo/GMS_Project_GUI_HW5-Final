@@ -6,13 +6,14 @@
 #include <QString>
 #include <map>
 #include <vector>
+#include <string>
 #include "gmsModel.h"
 #include "gms.h"
 #include "xmlErrorCode.h"
 #include "drawView.h"
-#include "string"
+#include "addComponentDialog.h"
 #include "constants.h"
-#include <string>
+
 using namespace std;
 
 namespace Ui {
@@ -38,6 +39,11 @@ private slots:
     //When Click OpenFolder Action Control,it will have a slot OnOpenFileButtonClicked() and go here.
     void OnOpenFileButtonClicked();
     void OnSaveFileButtonClicked();
+    //Add Component
+    void OnAddCubeComponentClicked();
+    void OnAddPyramidComponentClicked();
+    void OnAddSphereComponentClicked();
+    void OnAddLineComponentClicked();
 };
 
 #endif // MAINWINDOW_H

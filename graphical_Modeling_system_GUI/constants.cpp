@@ -1,26 +1,26 @@
 #include "constants.h"
 
-float Constants::DrawComponentData::CUBE_WIDTH = 60;
-float Constants::DrawComponentData::CUBE_HEIGHT = 60;
-float Constants::DrawComponentData::PYRAMID_WIDTH = 80;
-float Constants::DrawComponentData::PYRAMID_HEIGHT = 50;
-float Constants::DrawComponentData::SPHERE_WIDTH = 50;
-float Constants::DrawComponentData::SPHERE_HEIGHT = 50;
-float Constants::DrawComponentData::LINE_WIDTH = 50;
-float Constants::DrawComponentData::LINE_HEIGHT = 1;
+float Constants::DrawComponenPositiontData::CUBE_WIDTH = 60;
+float Constants::DrawComponenPositiontData::CUBE_HEIGHT = 60;
+float Constants::DrawComponenPositiontData::PYRAMID_WIDTH = 80;
+float Constants::DrawComponenPositiontData::PYRAMID_HEIGHT = 50;
+float Constants::DrawComponenPositiontData::SPHERE_WIDTH = 50;
+float Constants::DrawComponenPositiontData::SPHERE_HEIGHT = 50;
+float Constants::DrawComponenPositiontData::LINE_WIDTH = 50;
+float Constants::DrawComponenPositiontData::LINE_HEIGHT = 1;
 
-string Constants::DrawComponentData::SphereTypeString ="Sphere";
-string Constants::DrawComponentData::PyramidTypeString ="Pyramid";
-string Constants::DrawComponentData::CubeTypeString = "Cube";
-string Constants::DrawComponentData::LineTypeString = "Line";
+string Constants::DrawComponenPositiontData::SphereTypeString ="Sphere";
+string Constants::DrawComponenPositiontData::PyramidTypeString ="Pyramid";
+string Constants::DrawComponenPositiontData::CubeTypeString = "Cube";
+string Constants::DrawComponenPositiontData::LineTypeString = "Line";
 
-float Constants::DrawComponentData::COMPONENT_BEGIN_X = 50;
-float Constants::DrawComponentData::COMPONENT_BEGIN_Y = 50;
-float Constants::DrawComponentData::COMPONENT_DIFF_Y = 70;
+float Constants::DrawComponenPositiontData::COMPONENT_BEGIN_X = 50;
+float Constants::DrawComponenPositiontData::COMPONENT_BEGIN_Y = 50;
+float Constants::DrawComponenPositiontData::COMPONENT_DIFF_Y = 70;
 
-float Constants::DrawComponentData::GROUP_BEGIN_X = 250;
-float Constants::DrawComponentData::GROUP_BEGIN_Y = 50;
-float Constants::DrawComponentData::GROUP_DIFF_Y = 50;
+float Constants::DrawGroupsPositionData::GROUP_BEGIN_X = 400;
+float Constants::DrawGroupsPositionData::GROUP_BEGIN_Y = 50;
+float Constants::DrawGroupsPositionData::GROUP_DIFF_Y = 50;
 
 //ComponentType靜態類別參數設定
 int Constants::ComponentType::CubeType =1;

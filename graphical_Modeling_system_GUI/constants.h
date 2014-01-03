@@ -8,7 +8,7 @@ class Constants
 {
 public:
     //紀錄一些資料與參數
-    class DrawComponentData{
+    class DrawComponenPositiontData{
     public:
         //繪製的寬與高
         static float CUBE_WIDTH;
@@ -29,7 +29,10 @@ public:
         static float COMPONENT_BEGIN_X ;
         static float COMPONENT_BEGIN_Y;
         static float COMPONENT_DIFF_Y;
+    };
 
+    class DrawGroupsPositionData{
+    public:
         static float GROUP_BEGIN_X;
         static float GROUP_BEGIN_Y;
         static float GROUP_DIFF_Y;
