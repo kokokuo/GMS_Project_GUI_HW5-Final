@@ -39,7 +39,7 @@ public:
     QAction *actionPyramid;
     QAction *actionSphere;
     QAction *actionLine;
-    QAction *actionSave;
+    QAction *actionSaveByMenuBar;
     QWidget *centralWidget;
     QScrollArea *drawViewScrollArea;
     QWidget *scrollAreaWidgetContents;
@@ -89,8 +89,8 @@ public:
         actionSphere->setObjectName(QStringLiteral("actionSphere"));
         actionLine = new QAction(MainWindow);
         actionLine->setObjectName(QStringLiteral("actionLine"));
-        actionSave = new QAction(MainWindow);
-        actionSave->setObjectName(QStringLiteral("actionSave"));
+        actionSaveByMenuBar = new QAction(MainWindow);
+        actionSaveByMenuBar->setObjectName(QStringLiteral("actionSaveByMenuBar"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         drawViewScrollArea = new QScrollArea(centralWidget);
@@ -106,7 +106,7 @@ public:
         groupsListWidget->setGeometry(QRect(740, 10, 251, 281));
         componentsListWidget = new QListWidget(centralWidget);
         componentsListWidget->setObjectName(QStringLiteral("componentsListWidget"));
-        componentsListWidget->setGeometry(QRect(740, 330, 256, 192));
+        componentsListWidget->setGeometry(QRect(740, 330, 256, 281));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -128,7 +128,7 @@ public:
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuEdit->menuAction());
         menuFile->addAction(actionOpenByMenuBar);
-        menuFile->addAction(actionSave);
+        menuFile->addAction(actionSaveByMenuBar);
         menuFile->addAction(actionExitByMenuBar);
         menuEdit->addAction(menuAdd_Component->menuAction());
         menuEdit->addAction(actionAdd_Group);
@@ -160,7 +160,7 @@ public:
         actionPyramid->setText(QApplication::translate("MainWindow", "Pyramid", 0));
         actionSphere->setText(QApplication::translate("MainWindow", "Sphere", 0));
         actionLine->setText(QApplication::translate("MainWindow", "Line", 0));
-        actionSave->setText(QApplication::translate("MainWindow", "Save", 0));
+        actionSaveByMenuBar->setText(QApplication::translate("MainWindow", "Save", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", 0));
         menuAdd_Component->setTitle(QApplication::translate("MainWindow", "Add Component", 0));

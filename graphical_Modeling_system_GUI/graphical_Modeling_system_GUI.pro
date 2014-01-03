@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     addComponentCommand.cpp \
     deleteComponentCommand.cpp \
     addNewGroupCommand.cpp \
-    gms.cpp
+    gms.cpp \
+    constants.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -49,7 +50,8 @@ HEADERS  += mainwindow.h \
     deleteComponentCommand.h \
     editComponentNameCommand.h \
     editComponentTypeCommand.h \
-    gms.h
+    gms.h \
+    constants.h
 
 
 FORMS    += mainwindow.ui

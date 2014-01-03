@@ -18,6 +18,7 @@ INPUT(
 ./release\deleteComponentCommand.o
 ./release\addNewGroupCommand.o
 ./release\gms.o
+./release\constants.o
 ./release\qrc_asset.o
 ./release\moc_mainwindow.o
 );

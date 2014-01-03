@@ -10,7 +10,10 @@
 #include "gms.h"
 #include "xmlErrorCode.h"
 #include "drawView.h"
-
+#include "string"
+#include "constants.h"
+#include <string>
+using namespace std;
 
 namespace Ui {
 class MainWindow;

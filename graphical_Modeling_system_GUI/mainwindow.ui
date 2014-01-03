@@ -53,7 +53,7 @@
       <x>740</x>
       <y>330</y>
       <width>256</width>
-      <height>192</height>
+      <height>281</height>
      </rect>
     </property>
    </widget>
@@ -72,7 +72,7 @@
      <string>File</string>
     </property>
     <addaction name="actionOpenByMenuBar"/>
-    <addaction name="actionSave"/>
+    <addaction name="actionSaveByMenuBar"/>
     <addaction name="actionExitByMenuBar"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -181,7 +181,7 @@
     <string>Line</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="actionSaveByMenuBar">
    <property name="text">
     <string>Save</string>
    </property>

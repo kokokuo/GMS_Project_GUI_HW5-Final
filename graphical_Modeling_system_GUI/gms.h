@@ -74,6 +74,10 @@ public:
 
     bool Redo(); //回傳true表示執行成功,否之師失敗(可能redo到最新的指令)
     bool Undo(); //回傳true表示執行成功,反之則失敗(可能uedo到stack沒資料)
+
+    void OutputComponentsDataByConsole();
+    void OutputGroupsDataByConsole();
+
 private:
 
     bool isWorking; //判斷GMS系痛是否在執行中的變數

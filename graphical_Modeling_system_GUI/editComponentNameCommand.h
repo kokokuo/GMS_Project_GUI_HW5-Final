@@ -19,7 +19,7 @@ public:
     void unexecute();
 private:
     //取得Components(Receiver)用來操作(by Model)
-     GMSModel* model;
+    GMSModel* model;
     //要修改的名稱
     string editNewName;
     //原先的名稱

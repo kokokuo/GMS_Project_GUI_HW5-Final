@@ -8,13 +8,7 @@ using namespace std;
 
 class Group;
 
-class ComponentType{
-public:
-    static int SphereType;
-    static int PyramidType;
-    static int CubeType;
-    static int LineType;
-};
+
 
 //=================================================
 
