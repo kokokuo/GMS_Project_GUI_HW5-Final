@@ -19,11 +19,6 @@ public:
         static float SPHERE_HEIGHT;
         static float LINE_WIDTH;
         static float LINE_HEIGHT;
-        //繪製的類型
-        static string SphereTypeString;
-        static string PyramidTypeString;
-        static string CubeTypeString;
-        static string LineTypeString;
 
         //繪製的起始位置與偏差位移
         static float COMPONENT_BEGIN_X ;
@@ -44,6 +39,13 @@ public:
         static int PyramidType;
         static int CubeType;
         static int LineType;
+
+        //繪製的類型
+        static string SphereTypeString;
+        static string PyramidTypeString;
+        static string CubeTypeString;
+        static string LineTypeString;
+
     };
 
     class GUIMainWindowParameter{

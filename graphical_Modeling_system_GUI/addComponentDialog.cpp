@@ -6,7 +6,7 @@ AddComponentDialog::AddComponentDialog(QWidget *parent) :
     ui(new Ui::AddComponentDialog)
 {
     ui->setupUi(this);
-
+    this->setWindowFlags(Qt::WindowCloseButtonHint); //顯示只要關閉的按鈕在右上角即可,如此可以移除問號
     QObject::connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(OnButtonAccepted()));
     QObject::connect(ui->buttonBox,SIGNAL(rejected()),this,SLOT(close()));
 }
@@ -19,11 +19,11 @@ string AddComponentDialog::GetInputText(){
     return componentName;
 }
 void AddComponentDialog::OnButtonAccepted(){
-    if(!ui->componentNameTextEdit->toPlainText().isEmpty()){
-        string temp = ui->componentNameTextEdit->toPlainText().toStdString();
+    if(!ui->componentNameTextEdit->text().isEmpty()){
+        string temp = ui->componentNameTextEdit->text().toStdString();
         temp.erase(remove(temp.begin(),temp.end(),' '),temp.end()); //清除不必要的空白
         if(temp.size() >0){
-            componentName = ui->componentNameTextEdit->toPlainText().toStdString();
+            componentName = ui->componentNameTextEdit->text().toStdString();
         }
         else{
             QMessageBox msgBox;

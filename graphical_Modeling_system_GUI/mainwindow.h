@@ -13,6 +13,8 @@
 #include "drawView.h"
 #include "addComponentDialog.h"
 #include "constants.h"
+#include "component.h"
+#include "group.h"
 
 using namespace std;
 
@@ -29,7 +31,10 @@ public:
     ~MainWindow();
 
 private:
-
+     //更新Component顯示在ListWidget上的資料
+    void UpdateComponentListWidget(vector<Component*> componentList);
+     //更新Group顯示在ListWidget上的資料
+    void UpdateGroupListWidget(map<string, Group *> groupList);
     Ui::MainWindow *ui;
     //fileName
     QString fileName;

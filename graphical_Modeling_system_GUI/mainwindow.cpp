@@ -29,16 +29,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Register synchronous event(SINGAL & SLOT) to close MainWindow
     //by menubar
-    QObject::connect(ui->actionExitByMenuBar,SIGNAL(triggered()),this,SLOT(close()));
-    //by toolbutton
-    QObject::connect(ui->actionExitByToolBar,SIGNAL(triggered()),this,SLOT(close()));
+    QObject::connect(ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
 
     //open FileDialog
-    QObject::connect(ui->actionOpenByMenuBar,SIGNAL(triggered()),this,SLOT(OnOpenFileButtonClicked()));
-    QObject::connect(ui->actionOpenFolderByToolBar,SIGNAL(triggered()),this,SLOT(OnOpenFileButtonClicked()));
+    QObject::connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(OnOpenFileButtonClicked()));
 
     //save
-    QObject::connect(ui->actionSaveByMenuBar,SIGNAL(triggered()),this,SLOT(OnSaveFileButtonClicked()));
+    QObject::connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(OnSaveFileButtonClicked()));
 
     //AddComponent
     QObject::connect(ui->actionAddCube,SIGNAL(triggered()),this,SLOT(OnAddCubeComponentClicked()));
@@ -54,6 +51,34 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::UpdateComponentListWidget(vector<Component*> componentList){
+    stringstream ss;
+    ui->componentsListWidget->clear();
+    ui->componentsListWidget->addItem(QString::fromStdString(Constants::GUIMainWindowParameter::COMPONENTS_LIST_WIDGET_HEADER));
+    vector<Component*> components = componentList;
+    for(vector<Component*>::iterator it = components.begin();it != components.end();it++){
+         //取得字串
+        ss << (*it)->GetType()[0] << " , " << (*it)->GetID() << " , " << (*it)->GetName();
+        ui->componentsListWidget->addItem(QString::fromStdString(ss.str()));
+        //清空stringstream的資料
+        ss.str(""); ss.flush();
+    }
+}
+void MainWindow::UpdateGroupListWidget(map<string,Group*> groupList){
+    stringstream ss;
+    ui->groupsListWidget->clear();
+    ui->groupsListWidget->addItem(QString::fromStdString(Constants::GUIMainWindowParameter::GROUPS_LIST_WIDGET_HEADER));
+    map<string,Group*> groups = groupList;
+    for(map<string,Group*>::iterator it = groups.begin();it != groups.end();it++){
+        //取得字串
+        ss << it->first.c_str() << " , " << (it->second)->GetName() << " , " << (it->second)->GetMembersIdByStringFormat();
+        ui->groupsListWidget->addItem(QString::fromStdString(ss.str()));
+        //清空stringstream的資料
+        ss.str(""); ss.flush();
+    }
+}
+
 //SLOT : When Click OpenFolder Action Control,it will have a slot OnOpenFileButtonClicked() and go here.
 void MainWindow::OnOpenFileButtonClicked(){
     QDir fileDir(QDir::currentPath());
@@ -66,31 +91,13 @@ void MainWindow::OnOpenFileButtonClicked(){
     if(code == XMLErrorCode::OK){
         //Components
         if(this->gms.GetComponents().GetAllComponent().size() > 0){
-            stringstream ss;
-            ui->componentsListWidget->clear();
-            ui->componentsListWidget->addItem(QString::fromStdString(Constants::GUIMainWindowParameter::COMPONENTS_LIST_WIDGET_HEADER));
-            vector<Component*> components = this->gms.GetComponents().GetAllComponent();
-            for(vector<Component*>::iterator it = components.begin();it != components.end();it++){
-                 //取得字串
-                ss << (*it)->GetType()[0] << " , " << (*it)->GetID() << " , " << (*it)->GetName();
-                ui->componentsListWidget->addItem(QString::fromStdString(ss.str()));
-                //清空stringstream的資料
-                ss.str(""); ss.flush();
-            }
+            //更新顯示在ListWidget上的資料
+            this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
         }
         //Groups
         if(this->gms.GetGroups().GetAllGroups().size() >0){
-            stringstream ss;
-            ui->groupsListWidget->clear();
-            ui->groupsListWidget->addItem(QString::fromStdString(Constants::GUIMainWindowParameter::GROUPS_LIST_WIDGET_HEADER));
-            map<string,Group*> groups = this->gms.GetGroups().GetAllGroups();
-            for(map<string,Group*>::iterator it = groups.begin();it != groups.end();it++){
-                //取得字串
-                ss << it->first.c_str() << " , " << (it->second)->GetName() << " , " << (it->second)->GetMembersIdByStringFormat();
-                ui->groupsListWidget->addItem(QString::fromStdString(ss.str()));
-                //清空stringstream的資料
-                ss.str(""); ss.flush();
-            }
+            //更新顯示在ListWidget上的資料
+            this->UpdateGroupListWidget(this->gms.GetGroups().GetAllGroups());
         }
 
         //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
@@ -118,14 +125,63 @@ void MainWindow::OnAddCubeComponentClicked(){
     AddComponentDialog dialog;
     dialog.setModal(true);
     dialog.exec();
+    if(!dialog.GetInputText().empty()){
+        gms.AddComponentsByCommand(Constants::ComponentType::CubeTypeString,dialog.GetInputText());
+        //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
+        this->gms.OutputComponentsDataByConsole();
+        //更新畫面
+
+        //更新顯示在ListWidget上的資料
+        this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
+        //設定出示繪圖座標
+        view->SetComponentsDrawPostion();
+        view->update();
+    }
     cout << "\nGet input :" << dialog.GetInputText() << endl;
-}
-void MainWindow::OnAddPyramidComponentClicked(){
+
 
 }
+void MainWindow::OnAddPyramidComponentClicked(){
+    AddComponentDialog dialog;
+    dialog.setModal(true);
+    dialog.exec();
+    if(!dialog.GetInputText().empty()){
+        gms.AddComponentsByCommand(Constants::ComponentType::PyramidTypeString,dialog.GetInputText());
+        //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
+        this->gms.OutputComponentsDataByConsole();
+        //更新畫面
+
+        //更新顯示在ListWidget上的資料
+        this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
+        //設定出示繪圖座標
+        view->SetComponentsDrawPostion();
+        view->update();
+    }
+    cout << "\nGet input :" << dialog.GetInputText() << endl;
+}
 void MainWindow::OnAddSphereComponentClicked(){
+    AddComponentDialog dialog;
+    dialog.setModal(true);
+    dialog.exec();
+    if(!dialog.GetInputText().empty()){
+        gms.AddComponentsByCommand(Constants::ComponentType::SphereTypeString,dialog.GetInputText());
+        //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
+        this->gms.OutputComponentsDataByConsole();
+        //更新畫面
+
+        //更新顯示在ListWidget上的資料
+        this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
+        //設定出示繪圖座標
+        view->SetComponentsDrawPostion();
+        view->update();
+    }
+    cout << "\nGet input :" << dialog.GetInputText() << endl;
 
 }
 void MainWindow::OnAddLineComponentClicked(){
+    //更新畫面
+    //設定出示繪圖座標
+    view->SetComponentsDrawPostion();
+    view->update();
 
 }

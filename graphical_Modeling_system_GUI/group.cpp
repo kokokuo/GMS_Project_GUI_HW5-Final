@@ -7,6 +7,8 @@ Group::Group(int id, string name, vector<int> members)
     for(vector<int>::iterator it = members.begin();it != members.end();it++){
         this->membersId.push_back((*it));
     }
+    //設定預設值
+    this->x = this->y = -1;
 }
 Group::~Group(){
     membersId.clear();
@@ -114,4 +116,14 @@ bool Group::CheckBePressed(float x,float y){
    if(x >= this->x && x<= this->x + wordLength*7 && y >= this->y -10 && y <= this->y)
        return true;
    return false;
+}
+void Group::SetDrawableData(float x, float y){
+    this->x;
+    this->y;
+}
+bool Group::CheckBeSettedDrawableData(){
+    //表示有設定繪製時的資料
+    if(this->x != -1 &&   this->y != -1)
+        return true;
+    return false;
 }

@@ -42,13 +42,13 @@
     <string>Enter Name:</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="componentNameTextEdit">
+  <widget class="QLineEdit" name="componentNameTextEdit">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>20</x>
      <y>60</y>
-     <width>361</width>
-     <height>41</height>
+     <width>341</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>

@@ -8,11 +8,16 @@ Component::Component(int id, string componentType, string name)
     this->id = id;
     this->type = componentType;
     this->name = name;
+    //設定預設值
+    this->x =  this->y = this->width = this->height = -1 ;
+
 }
 Component::Component( Component& c){
     this->id = c.GetID();
     this->type = c.GetType();
     this->name = c.GetName();
+    //設定預設值
+    this->x =  this->y = this->width = this->height = -1 ;
 }
 int Component::GetID(){
     return this->id;
@@ -51,6 +56,12 @@ void Component::SetHeight(float height){
 float Component::GetWidth(){
     return this->width;
 }
+void Component::SetDrawableData(float x,float y,float width,float height){
+    this->x = x;
+    this->y = y;
+    this->width = width;
+    this->height = height;
+}
 float Component::GetHeight(){
     return this->height;
 
@@ -64,4 +75,10 @@ bool Component::CheckBePressed(float x,float y){
     }
     return false;
 
+}
+bool Component::CheckBeSettedDrawableData(){
+    //表示有設定繪製時的資料
+    if(this->x != -1 &&   this->y != -1 && this->width != -1 && this->height != -1)
+        return true;
+    return false;
 }

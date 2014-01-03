@@ -17,7 +17,7 @@
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QLineEdit>
 
 QT_BEGIN_NAMESPACE
 
@@ -26,7 +26,7 @@ class Ui_AddComponentDialog
 public:
     QDialogButtonBox *buttonBox;
     QLabel *label;
-    QTextEdit *componentNameTextEdit;
+    QLineEdit *componentNameTextEdit;
 
     void setupUi(QDialog *AddComponentDialog)
     {
@@ -41,9 +41,9 @@ public:
         label = new QLabel(AddComponentDialog);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(10, 20, 111, 16));
-        componentNameTextEdit = new QTextEdit(AddComponentDialog);
+        componentNameTextEdit = new QLineEdit(AddComponentDialog);
         componentNameTextEdit->setObjectName(QStringLiteral("componentNameTextEdit"));
-        componentNameTextEdit->setGeometry(QRect(10, 60, 361, 41));
+        componentNameTextEdit->setGeometry(QRect(20, 60, 341, 31));
 
         retranslateUi(AddComponentDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), AddComponentDialog, SLOT(accept()));

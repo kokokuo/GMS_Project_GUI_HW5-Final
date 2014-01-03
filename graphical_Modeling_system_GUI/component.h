@@ -32,6 +32,7 @@ public:
     void SetComponentType(string type); //設定類型
 
     //GUI用 設定座標
+    void SetDrawableData(float x,float y,float width,float height); //另一種設定方式
     void SetPositionX(float x);
     void SetPositionY(float Y);
     float GetPositionX();
@@ -43,6 +44,8 @@ public:
     float GetHeight();
     //確認GUI滑鼠的點擊座標是否有按掉
     bool CheckBePressed(float x,float y);
+    //確認有無被設定話圖的座標位置與寬高
+    bool CheckBeSettedDrawableData();
 
 protected:
     int id;

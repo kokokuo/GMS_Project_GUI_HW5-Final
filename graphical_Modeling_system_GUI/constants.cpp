@@ -9,10 +9,7 @@ float Constants::DrawComponenPositiontData::SPHERE_HEIGHT = 50;
 float Constants::DrawComponenPositiontData::LINE_WIDTH = 50;
 float Constants::DrawComponenPositiontData::LINE_HEIGHT = 1;
 
-string Constants::DrawComponenPositiontData::SphereTypeString ="Sphere";
-string Constants::DrawComponenPositiontData::PyramidTypeString ="Pyramid";
-string Constants::DrawComponenPositiontData::CubeTypeString = "Cube";
-string Constants::DrawComponenPositiontData::LineTypeString = "Line";
+
 
 float Constants::DrawComponenPositiontData::COMPONENT_BEGIN_X = 50;
 float Constants::DrawComponenPositiontData::COMPONENT_BEGIN_Y = 50;
@@ -27,6 +24,10 @@ int Constants::ComponentType::CubeType =1;
 int Constants::ComponentType::PyramidType = 2;
 int Constants::ComponentType::SphereType = 3;
 int Constants::ComponentType::LineType = 4;
+string Constants::ComponentType::SphereTypeString ="Sphere";
+string Constants::ComponentType::PyramidTypeString ="Pyramid";
+string Constants::ComponentType::CubeTypeString = "Cube";
+string Constants::ComponentType::LineTypeString = "Line";
 
 string Constants::GUIMainWindowParameter::XML_FILES_PATH = "graphical_Modeling_system_GUI/GMS XML Files";
 string Constants::GUIMainWindowParameter::COMPONENTS_LIST_WIDGET_HEADER = "Type , ID , Name\n======================";

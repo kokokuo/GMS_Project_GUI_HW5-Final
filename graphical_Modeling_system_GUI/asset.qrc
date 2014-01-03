@@ -2,5 +2,6 @@
     <qresource prefix="/toolButton_images">
         <file>asset images/exit_48px.png</file>
         <file>asset images/folder_open_48px.png</file>
+        <file>asset images/save_48px.png</file>
     </qresource>
 </RCC>

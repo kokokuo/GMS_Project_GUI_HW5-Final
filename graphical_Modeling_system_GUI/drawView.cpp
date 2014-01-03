@@ -22,13 +22,13 @@ void DrawView::paintEvent(QPaintEvent *){
                    drawComponents[i]->GetWidth(),
                    drawComponents[i]->GetHeight());
             //判斷類型
-            if(drawComponents[i]->GetType() == Constants::DrawComponenPositiontData::CubeTypeString){
+            if(drawComponents[i]->GetType() == Constants::ComponentType::CubeTypeString){
                 painter.setPen(Qt::black);
                 painter.drawText(rect,Qt::AlignCenter,QString::fromStdString(drawComponents[i]->GetName()));
                 painter.setPen(Qt::blue);
                 painter.drawRect(rect);
             }
-            else if(drawComponents[i]->GetType()  == Constants::DrawComponenPositiontData::PyramidTypeString){
+            else if(drawComponents[i]->GetType()  == Constants::ComponentType::PyramidTypeString){
                //三角形的座標
                 QPolygon polygon;
                 polygon << QPoint( drawComponents[i]->GetPositionX() + (drawComponents[i]->GetWidth()/2 ) , drawComponents[i]->GetPositionY())
@@ -39,7 +39,8 @@ void DrawView::paintEvent(QPaintEvent *){
                 painter.setPen(Qt::blue);
                 painter.drawPolygon(polygon);
             }
-            else if(drawComponents[i]->GetType()  == Constants::DrawComponenPositiontData::SphereTypeString){
+            //橢圓形
+            else if(drawComponents[i]->GetType()  == Constants::ComponentType::SphereTypeString){
                 painter.drawEllipse(drawComponents[i]->GetPositionX(),drawComponents[i]->GetPositionY()
                                     ,drawComponents[i]->GetWidth(),drawComponents[i]->GetHeight());
 
@@ -47,7 +48,8 @@ void DrawView::paintEvent(QPaintEvent *){
                 painter.drawText(rect,Qt::AlignCenter,QString::fromStdString(drawComponents[i]->GetName()));
                 painter.setPen(Qt::blue);
             }
-            else if(drawComponents[i]->GetType() == Constants::DrawComponenPositiontData::LineTypeString){
+            //線段
+            else if(drawComponents[i]->GetType() == Constants::ComponentType::LineTypeString){
                 painter.setPen(Qt::blue);
                 painter.drawRect(drawComponents[i]->GetPositionX(),drawComponents[i]->GetPositionY()
                                  ,drawComponents[i]->GetWidth(),drawComponents[i]->GetHeight());
@@ -57,6 +59,7 @@ void DrawView::paintEvent(QPaintEvent *){
             }
         }
     }
+    //Group
     vector<Group*> drawGroups = this->gms->GetGroups().GetGroupByVectorContainer();
      if(drawGroups.size() >0 ){
           for(unsigned int i = 0; i < drawGroups.size(); i++){
@@ -69,23 +72,27 @@ void DrawView::SetComponentsDrawPostion(){
     vector<Component*> drawComponents = this->gms->GetComponents().GetAllComponent();
     if(drawComponents.size() >0 ){
         for(unsigned int i = 0; i < drawComponents.size(); i++){
-            drawComponents[i]->SetPositionX(Constants::DrawComponenPositiontData::COMPONENT_BEGIN_X);
-            drawComponents[i]->SetPositionY(Constants::DrawComponenPositiontData::COMPONENT_BEGIN_Y + i * Constants::DrawComponenPositiontData::COMPONENT_DIFF_Y);
-            if(drawComponents[i]->GetType() == Constants::DrawComponenPositiontData::CubeTypeString){
-                drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::CUBE_WIDTH);
-                drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::CUBE_HEIGHT);
-            }
-            else if(drawComponents[i]->GetType() == Constants::DrawComponenPositiontData::PyramidTypeString){
-                drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::PYRAMID_WIDTH);
-                drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::PYRAMID_HEIGHT);
-            }
-            else if(drawComponents[i]->GetType() == Constants::DrawComponenPositiontData::SphereTypeString){
-                drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::SPHERE_WIDTH);
-                drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::SPHERE_HEIGHT);
-            }
-            else if(drawComponents[i]->GetType() == Constants::DrawComponenPositiontData::LineTypeString){
-                drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::LINE_WIDTH);
-                drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::LINE_HEIGHT);
+            //如果沒有被設定資料,再設定
+            if(!drawComponents[i]->CheckBeSettedDrawableData()){
+                //設定繪製的相關座標與元件的寬高
+                drawComponents[i]->SetPositionX(Constants::DrawComponenPositiontData::COMPONENT_BEGIN_X);
+                drawComponents[i]->SetPositionY(Constants::DrawComponenPositiontData::COMPONENT_BEGIN_Y + i * Constants::DrawComponenPositiontData::COMPONENT_DIFF_Y);
+                if(drawComponents[i]->GetType() == Constants::ComponentType::CubeTypeString){
+                    drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::CUBE_WIDTH);
+                    drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::CUBE_HEIGHT);
+                }
+                else if(drawComponents[i]->GetType() == Constants::ComponentType::PyramidTypeString){
+                    drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::PYRAMID_WIDTH);
+                    drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::PYRAMID_HEIGHT);
+                }
+                else if(drawComponents[i]->GetType() == Constants::ComponentType::SphereTypeString){
+                    drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::SPHERE_WIDTH);
+                    drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::SPHERE_HEIGHT);
+                }
+                else if(drawComponents[i]->GetType() == Constants::ComponentType::LineTypeString){
+                    drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::LINE_WIDTH);
+                    drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::LINE_HEIGHT);
+                }
             }
         }
     }
@@ -94,8 +101,11 @@ void DrawView::SetGroupsDrawPostion(){
     vector<Group*> drawGroups = this->gms->GetGroups().GetGroupByVectorContainer();
     if(drawGroups.size() >0 ){
         for(unsigned int i = 0; i < drawGroups.size(); i++){
-            drawGroups[i]->SetPositionX(Constants::DrawGroupsPositionData::GROUP_BEGIN_X);
-            drawGroups[i]->SetPositionY(Constants::DrawGroupsPositionData::GROUP_BEGIN_Y + i * Constants::DrawGroupsPositionData::GROUP_BEGIN_Y);
+            //如果沒有被設定資料,再設定
+            if(!drawGroups[i]->CheckBeSettedDrawableData()){
+                drawGroups[i]->SetPositionX(Constants::DrawGroupsPositionData::GROUP_BEGIN_X);
+                drawGroups[i]->SetPositionY(Constants::DrawGroupsPositionData::GROUP_BEGIN_Y + i * Constants::DrawGroupsPositionData::GROUP_BEGIN_Y);
+            }
         }
     }
 }

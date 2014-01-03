@@ -34,11 +34,14 @@ public:
     void RemoveSingleMember(int removeId);
 
     //GUI用 設定座標
+    void SetDrawableData(float x,float y); //另一種設定方式
     void SetPositionX(float x);
     void SetPositionY(float Y);
     float GetPositionX();
     float GetPositionY();
     bool CheckBePressed(float x,float y);
+    //確認有無被設定話圖的座標位置與寬高
+    bool CheckBeSettedDrawableData();
 private:
     int id;
     string groupName;
