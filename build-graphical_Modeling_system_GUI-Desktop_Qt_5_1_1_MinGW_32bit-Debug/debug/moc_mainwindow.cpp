@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[8];
-    char stringdata[170];
+    QByteArrayData data[10];
+    char stringdata[198];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,14 +36,17 @@ QT_MOC_LITERAL(3, 36, 23),
 QT_MOC_LITERAL(4, 60, 25),
 QT_MOC_LITERAL(5, 86, 28),
 QT_MOC_LITERAL(6, 115, 27),
-QT_MOC_LITERAL(7, 143, 25)
+QT_MOC_LITERAL(7, 143, 25),
+QT_MOC_LITERAL(8, 169, 13),
+QT_MOC_LITERAL(9, 183, 13)
     },
     "MainWindow\0OnOpenFileButtonClicked\0\0"
     "OnSaveFileButtonClicked\0"
     "OnAddCubeComponentClicked\0"
     "OnAddPyramidComponentClicked\0"
     "OnAddSphereComponentClicked\0"
-    "OnAddLineComponentClicked\0"
+    "OnAddLineComponentClicked\0OnRedoClicked\0"
+    "OnUndoClicked\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -53,7 +56,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -61,14 +64,18 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   44,    2, 0x08,
-       3,    0,   45,    2, 0x08,
-       4,    0,   46,    2, 0x08,
-       5,    0,   47,    2, 0x08,
-       6,    0,   48,    2, 0x08,
-       7,    0,   49,    2, 0x08,
+       1,    0,   54,    2, 0x08,
+       3,    0,   55,    2, 0x08,
+       4,    0,   56,    2, 0x08,
+       5,    0,   57,    2, 0x08,
+       6,    0,   58,    2, 0x08,
+       7,    0,   59,    2, 0x08,
+       8,    0,   60,    2, 0x08,
+       9,    0,   61,    2, 0x08,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -90,6 +97,8 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 3: _t->OnAddPyramidComponentClicked(); break;
         case 4: _t->OnAddSphereComponentClicked(); break;
         case 5: _t->OnAddLineComponentClicked(); break;
+        case 6: _t->OnRedoClicked(); break;
+        case 7: _t->OnUndoClicked(); break;
         default: ;
         }
     }
@@ -121,13 +130,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 6;
+        _id -= 8;
     }
     return _id;
 }

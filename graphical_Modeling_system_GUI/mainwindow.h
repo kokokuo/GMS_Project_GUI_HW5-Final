@@ -49,6 +49,9 @@ private slots:
     void OnAddPyramidComponentClicked();
     void OnAddSphereComponentClicked();
     void OnAddLineComponentClicked();
+    //Redo Undo
+    void OnRedoClicked();
+    void OnUndoClicked();
 };
 
 #endif // MAINWINDOW_H

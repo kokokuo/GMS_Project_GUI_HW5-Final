@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionAddSphere,SIGNAL(triggered()),this,SLOT(OnAddSphereComponentClicked()));
     QObject::connect(ui->actionAddLine,SIGNAL(triggered()),this,SLOT(OnAddLineComponentClicked()));
 
+    //Redo Undo
+    QObject::connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(OnAddLineComponentClicked()));
     view->update();
 
 }
@@ -184,4 +186,26 @@ void MainWindow::OnAddLineComponentClicked(){
     view->SetComponentsDrawPostion();
     view->update();
 
+}
+//尚未測試
+void MainWindow::OnRedoClicked(){
+    this->gms.Redo();
+    //更新顯示在ListWidget上的資料
+    this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
+    //更新顯示在ListWidget上的資料
+    this->UpdateGroupListWidget(this->gms.GetGroups().GetAllGroups());
+    //設定出示繪圖座標
+    view->SetComponentsDrawPostion();
+    view->update();
+}
+//尚未測試
+void MainWindow::OnUndoClicked(){
+    this->gms.Undo();
+    //更新顯示在ListWidget上的資料
+    this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
+    //更新顯示在ListWidget上的資料
+    this->UpdateGroupListWidget(this->gms.GetGroups().GetAllGroups());
+    //設定出示繪圖座標
+    view->SetComponentsDrawPostion();
+    view->update();
 }
