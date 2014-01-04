@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     addNewGroupCommand.cpp \
     gms.cpp \
     constants.cpp \
-    addComponentDialog.cpp
+    addComponentDialog.cpp \
+    editComponentDialog.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -53,11 +54,13 @@ HEADERS  += mainwindow.h \
     editComponentTypeCommand.h \
     gms.h \
     constants.h \
-    addComponentDialog.h
+    addComponentDialog.h \
+    editComponentDialog.h
 
 
 FORMS    += mainwindow.ui \
-    addComponentDialog.ui
+    addComponentDialog.ui \
+    editComponentDialog.ui
 
 RESOURCES += \
     asset.qrc

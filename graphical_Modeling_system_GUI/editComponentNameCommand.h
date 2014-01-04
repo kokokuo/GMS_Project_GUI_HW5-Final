@@ -6,6 +6,7 @@
 #include "components.h"
 #include "component.h"
 #include "gmsModel.h"
+
 using namespace std;
 
 class EditComponentNameCommand : public Command

@@ -7,7 +7,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setFixedSize(1024,768);
-    view = new DrawView(&gms); //取得GMSModel
+    view = new DrawView(&gms,this); //取得GMSModel
+
+    //為了畫線而記錄輸入名字時用的,設定為空的
+    //因為有可能使用者沒有點完畫線的兩個座標就又去選別的指令
+    lineName = "";
 
     //如果Window中只有一個主要原件,可使用,如果有多數元件,如加入ListWidget等 就要移掉此行
     //this->setCentralWidget(ui->drawViewScrollArea);
@@ -44,7 +48,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionAddLine,SIGNAL(triggered()),this,SLOT(OnAddLineComponentClicked()));
 
     //Redo Undo
-    QObject::connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(OnAddLineComponentClicked()));
+    QObject::connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(OnRedoClicked));
+    QObject::connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(OnUndoClicked));
     view->update();
 
 }
@@ -83,6 +88,7 @@ void MainWindow::UpdateGroupListWidget(map<string,Group*> groupList){
 
 //SLOT : When Click OpenFolder Action Control,it will have a slot OnOpenFileButtonClicked() and go here.
 void MainWindow::OnOpenFileButtonClicked(){
+   view->SetBeAddedLineComannd(false); //設定沒有要加入線段指令(已經離開加入線段的步驟,所以取消)
     QDir fileDir(QDir::currentPath());
     fileDir.cd("../" + QString::fromStdString(Constants::GUIMainWindowParameter::XML_FILES_PATH));
     fileName = QFileDialog::getOpenFileName(this,tr("Open GMS XML File"),
@@ -115,6 +121,7 @@ void MainWindow::OnOpenFileButtonClicked(){
 }
 //存檔案(尚未測試) 先保留
 void MainWindow::OnSaveFileButtonClicked(){
+    view->SetBeAddedLineComannd(false); //設定沒有要加入線段指令(已經離開加入線段的步驟,所以取消)
     QDir fileDir(QDir::currentPath());
     fileDir.cd("../" + QString::fromStdString(Constants::GUIMainWindowParameter::XML_FILES_PATH));
     fileName = QFileDialog::getSaveFileName(this,tr("Open GMS XML File"),
@@ -124,6 +131,7 @@ void MainWindow::OnSaveFileButtonClicked(){
 }
 
 void MainWindow::OnAddCubeComponentClicked(){
+    view->SetBeAddedLineComannd(false); //設定沒有要加入線段指令(已經離開加入線段的步驟,所以取消)
     AddComponentDialog dialog;
     dialog.setModal(true);
     dialog.exec();
@@ -144,6 +152,7 @@ void MainWindow::OnAddCubeComponentClicked(){
 
 }
 void MainWindow::OnAddPyramidComponentClicked(){
+    view->SetBeAddedLineComannd(false); //設定沒有要加入線段指令(已經離開加入線段的步驟,所以取消)
     AddComponentDialog dialog;
     dialog.setModal(true);
     dialog.exec();
@@ -162,6 +171,7 @@ void MainWindow::OnAddPyramidComponentClicked(){
     cout << "\nGet input :" << dialog.GetInputText() << endl;
 }
 void MainWindow::OnAddSphereComponentClicked(){
+    view->SetBeAddedLineComannd(false); //設定沒有要加入線段指令(已經離開加入線段的步驟,所以取消)
     AddComponentDialog dialog;
     dialog.setModal(true);
     dialog.exec();
@@ -181,31 +191,75 @@ void MainWindow::OnAddSphereComponentClicked(){
 
 }
 void MainWindow::OnAddLineComponentClicked(){
-    //更新畫面
-    //設定出示繪圖座標
-    view->SetComponentsDrawPostion();
-    view->update();
+    AddComponentDialog dialog;
+    dialog.setModal(true);
+    dialog.exec();
+    if(!dialog.GetInputText().empty() ){
+        lineName = dialog.GetInputText();
+        //告知view要加入線段
+        view->SetBeAddedLineComannd(true);
+    }
+    cout << "\nGet input :" << dialog.GetInputText() << endl;
 
 }
 //尚未測試
 void MainWindow::OnRedoClicked(){
+    view->SetBeAddedLineComannd(false); //設定沒有要加入線段指令(已經離開加入線段的步驟,所以取消)
     this->gms.Redo();
     //更新顯示在ListWidget上的資料
     this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
     //更新顯示在ListWidget上的資料
     this->UpdateGroupListWidget(this->gms.GetGroups().GetAllGroups());
-    //設定出示繪圖座標
-    view->SetComponentsDrawPostion();
+
     view->update();
 }
 //尚未測試
 void MainWindow::OnUndoClicked(){
+    view->SetBeAddedLineComannd(false); //設定沒有要加入線段指令(已經離開加入線段的步驟,所以取消)
     this->gms.Undo();
     //更新顯示在ListWidget上的資料
     this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
     //更新顯示在ListWidget上的資料
     this->UpdateGroupListWidget(this->gms.GetGroups().GetAllGroups());
+
+    view->update();
+}
+void MainWindow::OnGetDrawLinePoints(QPoint start,QPoint end){
+    gms.AddComponentsByCommand(Constants::ComponentType::LineTypeString,lineName);
+    //減一即為此元件的ID
+    gms.GetComponents().GetComponentById(gms.GetCurrentComponentMakerID()-1)->SetLinePosition(start.x(),start.y(),end.x(),end.y());
+    lineName = "";
+    //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
+    this->gms.OutputComponentsDataByConsole();
+    //更新畫面
+
+    //更新顯示在ListWidget上的資料
+    this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
     //設定出示繪圖座標
-    view->SetComponentsDrawPostion();
+    view->update();
+
+    view->SetBeAddedLineComannd(false); //完成指令所以關閉
+}
+void MainWindow::OnWantedEditComponentbeSelected(int wantEditId){
+    view->SetBeAddedLineComannd(false); //設定沒有要加入線段指令(已經離開加入線段的步驟,所以取消)
+    EditComponentDialog dialog;
+    dialog.setModal(true);
+    dialog.exec();
+    if(!dialog.GetInputNameText().empty() ){
+        gms.EditComponentNameByCommand(wantEditId,dialog.GetInputNameText());
+    }
+    if(dialog.GetTypeText() != "Not Edit"){
+         gms.EditComponentTypeByCommand(wantEditId,dialog.GetTypeText());
+    }
+    cout << "\nGet input :" << dialog.GetInputNameText() << endl;
+    cout << "\nGet type :" << dialog.GetTypeText() << endl;
+
+    //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
+    this->gms.OutputComponentsDataByConsole();
+    //更新畫面
+
+    //更新顯示在ListWidget上的資料
+    this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
+    //設定出示繪圖座標
     view->update();
 }

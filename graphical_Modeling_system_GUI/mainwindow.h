@@ -15,6 +15,7 @@
 #include "constants.h"
 #include "component.h"
 #include "group.h"
+#include "editComponentDialog.h"
 
 using namespace std;
 
@@ -30,6 +31,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void OnFinishClickPointsToAddLine();
 private:
      //更新Component顯示在ListWidget上的資料
     void UpdateComponentListWidget(vector<Component*> componentList);
@@ -40,6 +42,7 @@ private:
     QString fileName;
     GMS gms;
     DrawView* view;
+    string lineName;
 private slots:
     //When Click OpenFolder Action Control,it will have a slot OnOpenFileButtonClicked() and go here.
     void OnOpenFileButtonClicked();
@@ -52,6 +55,9 @@ private slots:
     //Redo Undo
     void OnRedoClicked();
     void OnUndoClicked();
+
+    void OnGetDrawLinePoints(QPoint start, QPoint end);
+    void OnWantedEditComponentbeSelected(int wantEditId);
 };
 
 #endif // MAINWINDOW_H

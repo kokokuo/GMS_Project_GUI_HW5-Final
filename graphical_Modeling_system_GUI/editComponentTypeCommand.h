@@ -6,7 +6,7 @@
 #include "components.h"
 #include "component.h"
 #include "gmsModel.h"
-
+#include "constants.h"
 using namespace std;
 
 class EditComponentTypeCommand : public Command
@@ -24,6 +24,8 @@ private:
     GMSModel* model;
     //要修改成的Type
     string editNewComponentType;
+    int originalX1,originalY1; //Line:紀錄原來的x,y座標(因為換到別的形狀時,x1,y1會改變)
+    int originalWidth,originalHeight; //原先形狀的寬高
     string originalType; //原來的Type
     //要修改的ID編號
     int editId;

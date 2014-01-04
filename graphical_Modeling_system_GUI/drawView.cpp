@@ -1,13 +1,18 @@
 #include "drawView.h"
+#include "mainwindow.h"
 
-
-DrawView::DrawView(GMS *gmsPtr)
+DrawView::DrawView(GMS *gmsPtr, MainWindow* window)
 {
-
     setFixedSize(1980,1080);
     this->gms = gmsPtr;
     installEventFilter(this);
     isComponentPressed = false;
+    isClickStartPoint = isClickEndPoint = false;
+    isAddLineCommand = false;
+    this->gmsWindow = window;
+    //建立同步事件
+    QObject::connect(this,SIGNAL(GetDrawLinePoints(QPoint,QPoint)),gmsWindow,SLOT(OnGetDrawLinePoints(QPoint,QPoint)));
+    QObject::connect(this,SIGNAL(WantedComponentBeSelected(int)),gmsWindow,SLOT(OnWantedEditComponentbeSelected(int)));
 }
 void DrawView::paintEvent(QPaintEvent *){
     QPainter painter(this);
@@ -51,8 +56,8 @@ void DrawView::paintEvent(QPaintEvent *){
             //線段
             else if(drawComponents[i]->GetType() == Constants::ComponentType::LineTypeString){
                 painter.setPen(Qt::blue);
-                painter.drawRect(drawComponents[i]->GetPositionX(),drawComponents[i]->GetPositionY()
-                                 ,drawComponents[i]->GetWidth(),drawComponents[i]->GetHeight());
+                painter.drawLine(drawComponents[i]->GetPositionX(),drawComponents[i]->GetPositionY(),drawComponents[i]->GetLinePositionX2(),drawComponents[i]->GetLinePositionY2());
+
                 painter.setPen(Qt::black);
                 painter.drawText(drawComponents[i]->GetPositionX(),drawComponents[i]->GetPositionY()
                                  ,drawComponents[i]->GetWidth(),drawComponents[i]->GetHeight()+25,Qt::AlignCenter,QString::fromStdString(drawComponents[i]->GetName()));
@@ -67,6 +72,8 @@ void DrawView::paintEvent(QPaintEvent *){
           }
      }
 }
+
+
 void DrawView::SetComponentsDrawPostion(){
     //設定座標
     vector<Component*> drawComponents = this->gms->GetComponents().GetAllComponent();
@@ -90,6 +97,8 @@ void DrawView::SetComponentsDrawPostion(){
                     drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::SPHERE_HEIGHT);
                 }
                 else if(drawComponents[i]->GetType() == Constants::ComponentType::LineTypeString){
+                    drawComponents[i]->SetLinePositionX2(Constants::DrawComponenPositiontData::COMPONENT_BEGIN_X + Constants::DrawComponenPositiontData::LINE_WIDTH);
+                    drawComponents[i]->SetLinePositionY2(drawComponents[i]->GetPositionY());
                     drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::LINE_WIDTH);
                     drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::LINE_HEIGHT);
                 }
@@ -119,7 +128,14 @@ bool DrawView::eventFilter(QObject *object, QEvent *event)
             //拖移 = 原先的物件座標 + 移動的座標位移差(現在的位移座標 - 原先的座標)
             dragComponent->SetPositionX(dragComponent->GetPositionX() + (e->pos().x() -componentStartPoint.x()) );
             dragComponent->SetPositionY(dragComponent->GetPositionY() + (e->pos().y() -componentStartPoint.y()) );
+            //如果是線段要再設定
+            if(dragComponent->GetType() == Constants::ComponentType::LineTypeString){
+                dragComponent->SetLinePositionX2(dragComponent->GetLinePositionX2() + (e->pos().x() -componentStartPoint.x()) );
+                dragComponent->SetLinePositionY2(dragComponent->GetLinePositionY2() + (e->pos().y() -componentStartPoint.y()) );
+
+            }
             componentStartPoint = e->pos();
+
         }
         //如果有按壓到Group物件
         else if(isGroupPressed){
@@ -158,14 +174,55 @@ bool DrawView::eventFilter(QObject *object, QEvent *event)
                 }
             }
         }
+        //如果有加入線段
+        if(isAddLineCommand){
+            if(!isClickStartPoint){
+                isClickStartPoint = true;
+                drawLineStartPoints = e->pos();
+            }
+            else if(!isClickEndPoint){
+                isClickEndPoint = true;
+                drawLineEndPoints = e->pos();
+            }
+        }
+
         this->update();
     }
     else if (event->type() == QEvent::MouseButtonRelease)
     {
         isComponentPressed = false;
         isGroupPressed = false;
+        //如果現在是要加入線段
+        if(isAddLineCommand){
+            //如果都有點擊為false
+            if(isClickStartPoint && isClickEndPoint){
+                //發動Signal
+                emit GetDrawLinePoints(drawLineStartPoints,drawLineEndPoints);
+                isClickEndPoint = isClickStartPoint = false;
+            }
+        }
+        else{
+            isClickEndPoint = isClickStartPoint = false;
+        }
+
         this->update();
     }
+    else if( event->type() == QEvent::MouseButtonDblClick){
+        QMouseEvent *e = (QMouseEvent*)event;
+        vector<Component*> drawComponents = this->gms->GetComponents().GetAllComponent();
+        if(drawComponents.size() >0 ){
+           for(unsigned int i = 0; i < drawComponents.size(); i++){
+               if(drawComponents[i]->CheckBePressed(e->pos().x(), e->pos().y() )){
+                   emit WantedComponentBeSelected(drawComponents[i]->GetID());
+                   break;
+               }
+           }
+        }
 
+    }
     return false;
+}
+//設定是否為加入線段的指令
+void DrawView::SetBeAddedLineComannd(bool decision){
+    isAddLineCommand = decision;
 }

@@ -20,7 +20,10 @@ INPUT(
 ./release\gms.o
 ./release\constants.o
 ./release\addComponentDialog.o
+./release\editComponentDialog.o
 ./release\qrc_asset.o
 ./release\moc_mainwindow.o
+./release\moc_drawView.o
 ./release\moc_addComponentDialog.o
+./release\moc_editComponentDialog.o
 );
