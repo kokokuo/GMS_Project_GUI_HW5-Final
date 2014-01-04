@@ -29,9 +29,14 @@ void GMS::EditComponentTypeByCommand(int id, string newType){
 
 }
 void GMS::AddComponentsByCommand(string componentType, string componentName){
-
     //使用Command加入
     AddComponentCommand* addCmd = new AddComponentCommand(&model,componentType,componentName);
+    cmdManager.execute(addCmd);
+
+}
+void GMS::AddDrawableComponentsByCommand(string componentType, string componentName,DrawableData data){
+    //使用Command加入
+    AddComponentCommand* addCmd = new AddComponentCommand(&model,componentType,componentName,data);
     cmdManager.execute(addCmd);
 
 }

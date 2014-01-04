@@ -16,7 +16,7 @@
 #include "addMembersToGroupCommand.h"
 #include "editComponentNameCommand.h"
 #include "editComponentTypeCommand.h"
-
+#include "constants.h"
 
 using namespace std;
 
@@ -33,6 +33,9 @@ public:
 
     //實作加入Components部分,id,類型,名稱
     void AddComponentsByCommand(string componentType, string componentName);
+    //實作可繪製的用的加入Component
+    void AddDrawableComponentsByCommand(string componentType, string componentName,DrawableData data);
+
     //編輯Component名稱
     void EditComponentNameByCommand(int id,string newName);
 

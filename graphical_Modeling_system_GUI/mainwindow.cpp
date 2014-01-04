@@ -48,8 +48,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionAddLine,SIGNAL(triggered()),this,SLOT(OnAddLineComponentClicked()));
 
     //Redo Undo
-    QObject::connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(OnRedoClicked));
-    QObject::connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(OnUndoClicked));
+    QObject::connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(OnRedoClicked()));
+    QObject::connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(OnUndoClicked()));
     view->update();
 
 }
@@ -114,8 +114,7 @@ void MainWindow::OnOpenFileButtonClicked(){
     }
 
     //設定出示繪圖座標
-    view->SetComponentsDrawPostion();
-    view->SetGroupsDrawPostion();
+    view->SetLoadedGMSFileDrawPostion();
     //更新畫面
     view->update();
 }
@@ -136,15 +135,14 @@ void MainWindow::OnAddCubeComponentClicked(){
     dialog.setModal(true);
     dialog.exec();
     if(!dialog.GetInputText().empty()){
-        gms.AddComponentsByCommand(Constants::ComponentType::CubeTypeString,dialog.GetInputText());
+        view->AddComponentDrawablePositionInfo(Constants::ComponentType::CubeTypeString,dialog.GetInputText());
         //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
         this->gms.OutputComponentsDataByConsole();
         //更新畫面
 
         //更新顯示在ListWidget上的資料
         this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
-        //設定出示繪圖座標
-        view->SetComponentsDrawPostion();
+
         view->update();
     }
     cout << "\nGet input :" << dialog.GetInputText() << endl;
@@ -157,15 +155,14 @@ void MainWindow::OnAddPyramidComponentClicked(){
     dialog.setModal(true);
     dialog.exec();
     if(!dialog.GetInputText().empty()){
-        gms.AddComponentsByCommand(Constants::ComponentType::PyramidTypeString,dialog.GetInputText());
+       view->AddComponentDrawablePositionInfo(Constants::ComponentType::PyramidTypeString,dialog.GetInputText());
         //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
         this->gms.OutputComponentsDataByConsole();
         //更新畫面
 
         //更新顯示在ListWidget上的資料
         this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
-        //設定出示繪圖座標
-        view->SetComponentsDrawPostion();
+
         view->update();
     }
     cout << "\nGet input :" << dialog.GetInputText() << endl;
@@ -176,15 +173,14 @@ void MainWindow::OnAddSphereComponentClicked(){
     dialog.setModal(true);
     dialog.exec();
     if(!dialog.GetInputText().empty()){
-        gms.AddComponentsByCommand(Constants::ComponentType::SphereTypeString,dialog.GetInputText());
+      view->AddComponentDrawablePositionInfo(Constants::ComponentType::SphereTypeString,dialog.GetInputText());
         //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
         this->gms.OutputComponentsDataByConsole();
         //更新畫面
 
         //更新顯示在ListWidget上的資料
         this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
-        //設定出示繪圖座標
-        view->SetComponentsDrawPostion();
+
         view->update();
     }
     cout << "\nGet input :" << dialog.GetInputText() << endl;
@@ -225,9 +221,9 @@ void MainWindow::OnUndoClicked(){
     view->update();
 }
 void MainWindow::OnGetDrawLinePoints(QPoint start,QPoint end){
-    gms.AddComponentsByCommand(Constants::ComponentType::LineTypeString,lineName);
-    //減一即為此元件的ID
-    gms.GetComponents().GetComponentById(gms.GetCurrentComponentMakerID()-1)->SetLinePosition(start.x(),start.y(),end.x(),end.y());
+    DrawableData data;
+    data.x = start.x(); data.y = start.y(); data.width = -1; data.height = -1; data.x2 = end.x(); data.y2 = end.y();
+    gms.AddDrawableComponentsByCommand(Constants::ComponentType::LineTypeString,lineName,data);
     lineName = "";
     //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
     this->gms.OutputComponentsDataByConsole();
@@ -248,7 +244,7 @@ void MainWindow::OnWantedEditComponentbeSelected(int wantEditId){
     if(!dialog.GetInputNameText().empty() ){
         gms.EditComponentNameByCommand(wantEditId,dialog.GetInputNameText());
     }
-    if(dialog.GetTypeText() != "Not Edit"){
+    if(dialog.GetTypeText() != "Not Edit" ){
          gms.EditComponentTypeByCommand(wantEditId,dialog.GetTypeText());
     }
     cout << "\nGet input :" << dialog.GetInputNameText() << endl;

@@ -11,7 +11,9 @@ EditComponentTypeCommand::~EditComponentTypeCommand(){
 }
 void EditComponentTypeCommand::execute(){
     int x1,x2,y1,y2;
+    x1 = x2 = y1 = y2 =-1;
     Component* editComponent = model->GetComponents().GetComponentById(editId);
+    //取得原先的類型的寬高
     this->originalWidth = editComponent->GetWidth();
     this->originalHeight =editComponent->GetHeight();
     //設定新的Type的繪製座標
@@ -29,7 +31,7 @@ void EditComponentTypeCommand::execute(){
         editComponent->SetHeight(Constants::DrawComponenPositiontData::SPHERE_HEIGHT);
     }
     else if(editComponent->GetType() == Constants::ComponentType::LineTypeString){
-        editComponent->SetWidth(Constants::DrawComponenPositiontData::LINE_WIDTH);
+       editComponent->SetWidth(Constants::DrawComponenPositiontData::LINE_WIDTH);
        editComponent->SetHeight(Constants::DrawComponenPositiontData::LINE_HEIGHT);
     }
 
@@ -56,7 +58,7 @@ void EditComponentTypeCommand::execute(){
             y1 = model->GetComponents().GetComponentById(editId)->GetPositionY();
             y2 = model->GetComponents().GetComponentById(editId)->GetLinePositionY2();
             if(x2 != -1 && x2 < x1){
-               //如果x2比較小,則把x2的座標設為原先x1
+               //如果不為-1 且比較小,則把x2的座標設為原先x1
                model->GetComponents().GetComponentById(editId)->SetPositionX(x2);
             }
             if(y2 != -1 && y2 < y1){
@@ -66,7 +68,7 @@ void EditComponentTypeCommand::execute(){
     }
     //原先不是線段,要改成線段
     else if (this->originalType != Constants::ComponentType::LineTypeString
-             && model->GetComponents().GetComponentById(editId)->GetType() != Constants::ComponentType::LineTypeString){
+             && model->GetComponents().GetComponentById(editId)->GetType() == Constants::ComponentType::LineTypeString){
        x1 = model->GetComponents().GetComponentById(editId)->GetPositionX();
        y1 = model->GetComponents().GetComponentById(editId)->GetPositionY();
         //畫成水平線

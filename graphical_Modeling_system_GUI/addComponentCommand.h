@@ -6,7 +6,9 @@
 #include "components.h"
 #include "component.h"
 #include "gmsModel.h"
+#include "constants.h"
 using namespace std;
+
 
 //加入Component指令
 class AddComponentCommand :public Command
@@ -14,6 +16,7 @@ class AddComponentCommand :public Command
 public:
     //建構子 取得執行指令所需的資料
     AddComponentCommand(GMSModel* model, string componentType, string componentName);
+    AddComponentCommand(GMSModel* model, string componentType, string componentName,DrawableData data);
     ~AddComponentCommand();
     //執行指令
     void execute();
@@ -28,6 +31,8 @@ private:
     string AddName;
     //要加入時的ID編號
     int addedId;
+    int x1,x2,y1,y2;
+    float width,height;
 };
 
 #endif // ADDCOMPONENTCOMMAND_H

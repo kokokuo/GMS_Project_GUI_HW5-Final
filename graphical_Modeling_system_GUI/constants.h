@@ -56,4 +56,14 @@ public:
     };
 };
 
+struct DrawableData{
+public:
+    int x;
+    int y;
+    int width;
+    int height;
+    int x2;
+    int y2;
+};
+
 #endif // CONSTANTS_H

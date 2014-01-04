@@ -9,6 +9,7 @@ EditComponentDialog::EditComponentDialog(QWidget *parent) :
     componentName = "";
     ui->editNameTextEdit->setEnabled(false); //預設沒有打開
     ui->editTypeComboBox->addItem("Not Edit");
+    this->type = "Not Edit";
     ui->editTypeComboBox->addItem(QString::fromStdString(Constants::ComponentType::CubeTypeString));
     ui->editTypeComboBox->addItem(QString::fromStdString(Constants::ComponentType::PyramidTypeString));
     ui->editTypeComboBox->addItem(QString::fromStdString(Constants::ComponentType::SphereTypeString));
@@ -43,7 +44,7 @@ void EditComponentDialog::OnButtonAccepted(){
         }
 
     }
-    this->type =  ui->editTypeComboBox->currentText().toStdString();
+    this->type = ui->editTypeComboBox->currentText().toStdString();
 
 }
 void EditComponentDialog::OnSelectEditName(){

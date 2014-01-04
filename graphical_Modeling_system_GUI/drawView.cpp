@@ -74,7 +74,7 @@ void DrawView::paintEvent(QPaintEvent *){
 }
 
 
-void DrawView::SetComponentsDrawPostion(){
+void DrawView::SetLoadedGMSFileDrawPostion(){
     //設定座標
     vector<Component*> drawComponents = this->gms->GetComponents().GetAllComponent();
     if(drawComponents.size() >0 ){
@@ -105,8 +105,6 @@ void DrawView::SetComponentsDrawPostion(){
             }
         }
     }
-}
-void DrawView::SetGroupsDrawPostion(){
     vector<Group*> drawGroups = this->gms->GetGroups().GetGroupByVectorContainer();
     if(drawGroups.size() >0 ){
         for(unsigned int i = 0; i < drawGroups.size(); i++){
@@ -118,6 +116,32 @@ void DrawView::SetGroupsDrawPostion(){
         }
     }
 }
+void DrawView::AddComponentDrawablePositionInfo(string type,string name){
+
+    int i = gms->GetComponents().GetAllComponent().size() ;
+    int x = Constants::DrawComponenPositiontData::COMPONENT_BEGIN_X;
+    int y = Constants::DrawComponenPositiontData::COMPONENT_BEGIN_Y + i * Constants::DrawComponenPositiontData::COMPONENT_DIFF_Y;
+    int width = -1,height = -1;
+    //設定繪製的相關座標與元件的寬高
+
+    if(type == Constants::ComponentType::CubeTypeString){
+        width = Constants::DrawComponenPositiontData::CUBE_WIDTH;
+        height = Constants::DrawComponenPositiontData::CUBE_HEIGHT;
+    }
+    else if(type == Constants::ComponentType::PyramidTypeString){
+        width = Constants::DrawComponenPositiontData::PYRAMID_WIDTH;
+        height = Constants::DrawComponenPositiontData::PYRAMID_HEIGHT;
+    }
+    else if(type == Constants::ComponentType::SphereTypeString){
+        width = Constants::DrawComponenPositiontData::SPHERE_WIDTH;
+        height = Constants::DrawComponenPositiontData::SPHERE_HEIGHT;
+    }
+    DrawableData data;
+    data.x = x; data.y = y; data.width = width; data.height = height; data.x2 = -1; data.y2 = -1;
+    gms->AddDrawableComponentsByCommand(type,name,data);
+}
+
+
 bool DrawView::eventFilter(QObject *object, QEvent *event)
 {
     if (event->type() == QEvent::MouseMove)

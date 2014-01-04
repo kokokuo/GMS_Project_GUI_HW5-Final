@@ -38,21 +38,21 @@ public:
 
     void SetPositionX(float x);
     void SetPositionY(float Y);
-    float GetPositionX();
-    float GetPositionY();
+    int GetPositionX();
+    int GetPositionY();
 
-    bool SetLinePosition(float x1,float y1,float x2,float y2);
-    bool SetLinePositionX2(float x2);
-    bool SetLinePositionY2(float Y2);
-    float GetLinePositionX2();
-    float GetLinePositionY2();
+    bool SetLinePosition(int x1, int y1, int x2, int y2);
+    bool SetLinePositionX2(int x2);
+    bool SetLinePositionY2(int Y2);
+    int GetLinePositionX2();
+    int GetLinePositionY2();
 
-    void SetWidth(float width);
-    void SetHeight(float height);
-    float GetWidth();
-    float GetHeight();
+    void SetWidth(int width);
+    void SetHeight(int height);
+    int GetWidth();
+    int GetHeight();
     //確認GUI滑鼠的點擊座標是否有按掉
-    virtual bool CheckBePressed(float x,float y);
+    bool CheckBePressed(int x, int y);
     //確認有無被設定話圖的座標位置與寬高
     bool CheckBeSettedDrawableData();
 
@@ -61,9 +61,9 @@ private:
     string type;
     string name;
     vector<Group*> GroupsAddedComponent; //紀錄有加入此Component的Group記憶體位址
-    float x,y;
-    float width,height;
-    float x2,y2; //畫線
+    int x,y;
+    int width,height;
+    int x2,y2; //畫線
 };
 
 #endif // COMPONENT_H

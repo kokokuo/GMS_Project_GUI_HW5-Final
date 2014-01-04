@@ -50,26 +50,26 @@ void Component::SetPositionX(float x){
 void Component::SetPositionY(float y){
     this->y = y;
 }
-float Component::GetPositionX(){
+int Component::GetPositionX(){
     return this->x;
 }
-float Component::GetPositionY(){
+int Component::GetPositionY(){
     return this->y;
 }
-void Component::SetWidth(float width){
+void Component::SetWidth(int width){
     this->width = width;
 }
-void Component::SetHeight(float height){
+void Component::SetHeight(int height){
     this->height = height;
 }
-float Component::GetWidth(){
+int Component::GetWidth(){
     return this->width;
 }
-float Component::GetHeight(){
+int Component::GetHeight(){
     return this->height;
 
 }
-bool Component::CheckBePressed(float x,float y){
+bool Component::CheckBePressed(int x, int y){
     if(this->type != Constants::ComponentType::LineTypeString  &&  x > this->x && x < this->x + this->width && y < this->y + this->height && y > this->y){
         return true;
     }
@@ -86,7 +86,7 @@ bool Component::CheckBeSettedDrawableData(){
     return false;
 }
 //如果是線的Type再設定
-bool Component::SetLinePositionX2(float x2){
+bool Component::SetLinePositionX2(int x2){
     if(type == Constants::ComponentType::LineTypeString){
         this->x2 = x2;
         return true;
@@ -94,20 +94,20 @@ bool Component::SetLinePositionX2(float x2){
     return false;
 }
 //如果是線的Type再設定
-bool Component::SetLinePositionY2(float y2){
+bool Component::SetLinePositionY2(int y2){
     if(type == Constants::ComponentType::LineTypeString){
         this->y2 = y2;
         return true;
     }
     return false;
 }
-float Component::GetLinePositionX2(){
+int Component::GetLinePositionX2(){
     return this->x2;
 }
-float Component::GetLinePositionY2(){
+int Component::GetLinePositionY2(){
     return this->y2;
 }
-bool Component::SetLinePosition(float x1, float y1, float x2, float y2){
+bool Component::SetLinePosition(int x1, int y1, int x2, int y2){
     if(type == Constants::ComponentType::LineTypeString){
         this->x = x1;
         this->y = y1;
