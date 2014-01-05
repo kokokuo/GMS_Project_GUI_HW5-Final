@@ -6,7 +6,7 @@
 #include "group.h"
 #include "groups.h"
 #include "gmsModel.h"
-
+#include "constants.h"
 using namespace std;
 
 //新建Group的指令
@@ -15,6 +15,7 @@ class AddNewGroupCommand :public Command
 public:
     //建構子 取得執行指令所需的資料
     AddNewGroupCommand(GMSModel* model,string name, vector<int> members);
+    AddNewGroupCommand(GMSModel* model,string name, vector<int> members,DrawableData data);
     ~AddNewGroupCommand();
     //執行指令
     void execute();
@@ -29,6 +30,7 @@ private:
     vector<int> addMembers;
     //新建Group時給予的編號
     int addedId;
+    int x,y; //繪製座標
 };
 
 #endif // ADDNEWGROUPCOMMAND_H

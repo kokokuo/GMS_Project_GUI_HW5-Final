@@ -12,6 +12,7 @@
 #include "xmlErrorCode.h"
 #include "drawView.h"
 #include "addComponentDialog.h"
+#include "addGroupDialog.h"
 #include "constants.h"
 #include "component.h"
 #include "group.h"
@@ -58,6 +59,10 @@ private slots:
 
     void OnGetDrawLinePoints(QPoint start, QPoint end);
     void OnWantedEditComponentbeSelected(int wantEditId);
+
+    //Add Group
+    void OnAddGroupClicked();
+
 };
 
 #endif // MAINWINDOW_H

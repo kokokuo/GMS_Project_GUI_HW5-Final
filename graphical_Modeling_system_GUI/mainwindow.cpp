@@ -50,6 +50,10 @@ MainWindow::MainWindow(QWidget *parent) :
     //Redo Undo
     QObject::connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(OnRedoClicked()));
     QObject::connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(OnUndoClicked()));
+
+    //AddGroup
+    QObject::connect(ui->actionAddGroup,SIGNAL(triggered()),this,SLOT(OnAddGroupClicked()));
+
     view->update();
 
 }
@@ -258,4 +262,26 @@ void MainWindow::OnWantedEditComponentbeSelected(int wantEditId){
     this->UpdateComponentListWidget(this->gms.GetComponents().GetAllComponent());
     //設定出示繪圖座標
     view->update();
+}
+
+void MainWindow::OnAddGroupClicked(){
+    AddGroupDialog dialog;
+    //用來判斷書入的component id有無錯誤
+    dialog.SetComponents(gms.GetComponents());
+    dialog.setModal(true);
+    dialog.exec();
+    if(!dialog.GetGroupNameText().empty() && dialog.GetAddMembersId().size() >0){
+        //給予DrawView
+        view->AddGroupDrawablePositionInfo(dialog.GetGroupNameText(),dialog.GetAddMembersId());
+
+        //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
+        this->gms.OutputGroupsDataByConsole();
+        //更新畫面
+
+        //更新顯示在ListWidget上的資料
+        this->UpdateGroupListWidget(this->gms.GetGroups().GetAllGroups());
+
+        //設定出示繪圖座標
+        view->update();
+    }
 }

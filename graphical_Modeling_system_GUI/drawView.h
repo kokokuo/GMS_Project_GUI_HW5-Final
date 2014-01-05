@@ -19,9 +19,12 @@ class DrawView : public QWidget
 
 public:
     DrawView(GMS* gmsPtr, MainWindow* window);
-    //設定顯示在畫布上的初始位置
+    //設定載入的檔案顯示在畫布上的初始位置
     void SetLoadedGMSFileDrawPostion();
+    //拿取要加入的Component資料,並給予座標,再加入命令
     void AddComponentDrawablePositionInfo(string type,string name);
+    //拿取要加入的Group資料,並給予座標,再加入命令
+    void AddGroupDrawablePositionInfo(string groupName,vector<int> membersId);
     void SetBeAddedLineComannd(bool decision);
 
 signals:

@@ -71,6 +71,8 @@ public:
 
     //加入新的Group
     void AddNewGroupByCommand(string name, vector<int> members);
+    //加入新的Group
+    void AddDrawableNewGroupByCommand(string name, vector<int> members,DrawableData data);
 
     //加入members ID到Group
     void AddMembersToGroupByCommand(int groupId,vector<int> members);

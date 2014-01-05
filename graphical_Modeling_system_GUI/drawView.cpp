@@ -140,7 +140,15 @@ void DrawView::AddComponentDrawablePositionInfo(string type,string name){
     data.x = x; data.y = y; data.width = width; data.height = height; data.x2 = -1; data.y2 = -1;
     gms->AddDrawableComponentsByCommand(type,name,data);
 }
+void DrawView::AddGroupDrawablePositionInfo(string groupName, vector<int> membersId){
+    int i = gms->GetGroups().GetGroupByVectorContainer().size() ;
+    int x = Constants::DrawGroupsPositionData::GROUP_BEGIN_X;
+    int y = Constants::DrawGroupsPositionData::GROUP_BEGIN_Y + i * Constants::DrawGroupsPositionData::GROUP_BEGIN_Y;
 
+    DrawableData data;
+    data.x = x; data.y = y; data.width = -1; data.height = -1; data.x2 = -1; data.y2 = -1;
+    gms->AddDrawableNewGroupByCommand(groupName,membersId,data);
+}
 
 bool DrawView::eventFilter(QObject *object, QEvent *event)
 {
@@ -242,7 +250,9 @@ bool DrawView::eventFilter(QObject *object, QEvent *event)
                }
            }
         }
-
+        //避免修改完後要切換到drag會座標跑調(因為double click,可能會觸發press的部分)
+        isComponentPressed = false;
+        isGroupPressed = false;
     }
     return false;
 }

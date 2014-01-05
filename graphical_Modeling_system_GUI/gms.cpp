@@ -92,6 +92,12 @@ void GMS::AddNewGroupByCommand(string name, vector<int> members){
     cmdManager.execute(addGroupCmd);
 
 }
+void GMS::AddDrawableNewGroupByCommand(string name, vector<int> members,DrawableData data){
+    //使用Command加入新的Group
+    AddNewGroupCommand* addGroupCmd = new AddNewGroupCommand(&model,name,members,data);
+    cmdManager.execute(addGroupCmd);
+}
+
 
 //取得想要的Group
 Group* GMS::FindGroupByGroupId(int groupId){
