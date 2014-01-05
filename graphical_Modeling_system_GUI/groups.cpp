@@ -81,12 +81,21 @@ void Groups::MinusGroupID(){
     groupID--;
 }
 void Groups::DeleteGroup(int id){
-    for(map<string,Group*>::iterator it =  this->groups.begin();it != this->groups.end();it++){
-        if(it->second->GetID() == id){
-            delete it->second;
-            groups.erase(it);
+    for(vector<Group*>::iterator it = this->groupsVec.begin();it != this->groupsVec.end(); it++ ){
+        if((*it)->GetID() == id){
+            groupsVec.erase(it);
+            break;
         }
     }
+    for(map<string,Group*>::iterator it =  this->groups.begin();it != this->groups.end();it++){
+        if(it->second->GetID() == id){
+            Group* g = it->second;
+            groups.erase(it);
+            delete g;
+            break;
+        }
+    }
+
 }
 //取得Group
 Group* Groups::GetGroupById(int id){
