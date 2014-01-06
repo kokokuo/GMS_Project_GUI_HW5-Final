@@ -118,8 +118,8 @@ bool Group::CheckBePressed(float x,float y){
    return false;
 }
 void Group::SetDrawableData(float x, float y){
-    this->x;
-    this->y;
+    this->x = x;
+    this->y = y;
 }
 bool Group::CheckBeSettedDrawableData(){
     //表示有設定繪製時的資料

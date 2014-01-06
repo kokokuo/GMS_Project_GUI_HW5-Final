@@ -9,7 +9,9 @@
 #include "gms.h"
 #include "constants.h"
 #include <QPoint>
-
+#include "drawViewState.h"
+#include "drawViewNormalState.h"
+#include "drawLineState.h"
 
 class MainWindow;
 
@@ -25,27 +27,21 @@ public:
     void AddComponentDrawablePositionInfo(string type,string name);
     //拿取要加入的Group資料,並給予座標,再加入命令
     void AddGroupDrawablePositionInfo(string groupName,vector<int> membersId);
-    void SetBeAddedLineComannd(bool decision);
+    void SetBeAddedLineComannd(bool decision); //設定是否要加入Line Command
 
 signals:
-    void GetDrawLinePoints(QPoint,QPoint);
-    void WantedComponentBeSelected(int editId);
+    void WantedComponentBeSelected(int editId); //發送想要選擇的Component,用在編輯時所使用
 
 protected:
-    bool eventFilter(QObject *, QEvent *);
+    bool eventFilter(QObject *, QEvent *); //事件過濾器
     void paintEvent(QPaintEvent *);
 private:
-    bool isComponentPressed; //用來Component記錄有無被按壓到
-    bool isGroupPressed; //用來Group記錄有無被按壓到
-    Component* dragComponent; //紀錄被拖移的Component
-    Group* dragGroup; //紀錄被拖移的Group
-    QPoint componentStartPoint; //記錄Component拖移的前一個座標
-    QPoint groupStartPoint; //記錄Group拖移的前一個座標
-    GMS* gms;
-    bool isAddLineCommand,isClickStartPoint,isClickEndPoint;
-    QPoint drawLineStartPoints; //畫線段的初始座標
-    QPoint drawLineEndPoints; //畫線段的結束座標
-    MainWindow* gmsWindow;
+    GMS* gms; //gms
+    MainWindow* gmsWindow; //mainwindow
+    map<Constants::DrawViewStateEnum,DrawViewState*> states; //紀錄兩種state
+    DrawViewState* currentState; //紀錄目前的state;
+
+
 };
 
 #endif // DRAWVIEW_H

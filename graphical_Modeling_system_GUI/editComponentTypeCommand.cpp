@@ -5,6 +5,7 @@ EditComponentTypeCommand::EditComponentTypeCommand(GMSModel* model, int editId, 
     this->model = model;
     this->editId = editId;
     this->editNewComponentType = editNewComponentType;
+
 }
 EditComponentTypeCommand::~EditComponentTypeCommand(){
 
@@ -46,10 +47,12 @@ void EditComponentTypeCommand::execute(){
           *        => x1 =x2
         * <-1
     */
-
+    //如果原先的型態是線段
     if(this->originalType == Constants::ComponentType::LineTypeString){
         this->originalX1 = model->GetComponents().GetComponentById(editId)->GetPositionX();
         this->originalY1 = model->GetComponents().GetComponentById(editId)->GetPositionY();
+        this->originalX2 = model->GetComponents().GetComponentById(editId)->GetLinePositionX2();
+        this->originalY2 = model->GetComponents().GetComponentById(editId)->GetLinePositionY2();
         //設定新的座標
         //並且新的形狀不是Line
         if(model->GetComponents().GetComponentById(editId)->GetType() != Constants::ComponentType::LineTypeString){
@@ -85,8 +88,10 @@ void EditComponentTypeCommand::unexecute(){
     model->GetComponents().GetComponentById(editId)->SetHeight(this->originalHeight);
     //設定回原來的線段座標
     if(this->originalType == Constants::ComponentType::LineTypeString){
-        model->GetComponents().GetComponentById(editId)->SetPositionY(this->originalX1);
+        model->GetComponents().GetComponentById(editId)->SetPositionX(this->originalX1);
         model->GetComponents().GetComponentById(editId)->SetPositionY(this->originalY1);
+        model->GetComponents().GetComponentById(editId)->SetLinePositionX2(this->originalX2);
+        model->GetComponents().GetComponentById(editId)->SetLinePositionY2(this->originalY2);
     }
 
 }

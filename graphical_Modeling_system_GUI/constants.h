@@ -4,10 +4,11 @@
 #include <string>
 using namespace std;
 
+//紀錄一些會用到常數值
 class Constants
 {
 public:
-    //紀錄一些資料與參數
+    //Component時繪製的座標
     class DrawComponenPositiontData{
     public:
         //繪製的寬與高
@@ -25,7 +26,7 @@ public:
         static float COMPONENT_BEGIN_Y;
         static float COMPONENT_DIFF_Y;
     };
-
+    //Group時繪製的座標
     class DrawGroupsPositionData{
     public:
         static float GROUP_BEGIN_X;
@@ -35,12 +36,13 @@ public:
 
     class ComponentType{
     public:
+        //Console用 由number對應
         static int SphereType;
         static int PyramidType;
         static int CubeType;
         static int LineType;
 
-        //繪製的類型
+        //繪製的類型(字串)
         static string SphereTypeString;
         static string PyramidTypeString;
         static string CubeTypeString;
@@ -48,20 +50,28 @@ public:
 
     };
 
+
     class GUIMainWindowParameter{
     public:
-        static string XML_FILES_PATH;
-        static string COMPONENTS_LIST_WIDGET_HEADER;
-        static string GROUPS_LIST_WIDGET_HEADER;
+        static string XML_FILES_PATH; //紀錄讀檔的資料夾路徑
+        static string COMPONENTS_LIST_WIDGET_HEADER; //Component ListWidget顯示的表頭字串
+        static string GROUPS_LIST_WIDGET_HEADER; //Group ListWidget顯示的表頭字串
+    };
+
+    //State pattern用
+    enum DrawViewStateEnum{
+        DRAW_LINE_STATE = 0,
+        DRAW_NORMAL_STATE
     };
 };
-
+//紀錄要繪製的座標與寬高
 struct DrawableData{
 public:
     int x;
     int y;
     int width;
     int height;
+    //Line才用
     int x2;
     int y2;
 };

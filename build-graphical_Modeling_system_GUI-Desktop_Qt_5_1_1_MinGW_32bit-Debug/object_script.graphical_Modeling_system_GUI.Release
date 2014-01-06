@@ -22,10 +22,15 @@ INPUT(
 ./release\addComponentDialog.o
 ./release\editComponentDialog.o
 ./release\addGroupDialog.o
+./release\drawViewState.o
+./release\drawViewNormalState.o
+./release\drawLineState.o
 ./release\qrc_asset.o
 ./release\moc_mainwindow.o
 ./release\moc_drawView.o
 ./release\moc_addComponentDialog.o
 ./release\moc_editComponentDialog.o
 ./release\moc_addGroupDialog.o
+./release\moc_drawViewState.o
+./release\moc_drawLineState.o
 );

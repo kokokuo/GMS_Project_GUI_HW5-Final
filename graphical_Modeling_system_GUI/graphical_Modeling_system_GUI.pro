@@ -34,7 +34,10 @@ SOURCES += main.cpp\
     constants.cpp \
     addComponentDialog.cpp \
     editComponentDialog.cpp \
-    addGroupDialog.cpp
+    addGroupDialog.cpp \
+    drawViewState.cpp \
+    drawViewNormalState.cpp \
+    drawLineState.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -57,7 +60,10 @@ HEADERS  += mainwindow.h \
     constants.h \
     addComponentDialog.h \
     editComponentDialog.h \
-    addGroupDialog.h
+    addGroupDialog.h \
+    drawViewState.h \
+    drawViewNormalState.h \
+    drawLineState.h
 
 
 FORMS    += mainwindow.ui \

@@ -3,16 +3,20 @@
 
 DrawView::DrawView(GMS *gmsPtr, MainWindow* window)
 {
-    setFixedSize(1980,1080);
+    setFixedSize(1280,1080);
     this->gms = gmsPtr;
     installEventFilter(this);
-    isComponentPressed = false;
-    isClickStartPoint = isClickEndPoint = false;
-    isAddLineCommand = false;
     this->gmsWindow = window;
+    //放置State pattern
+    states.insert(pair<Constants::DrawViewStateEnum,DrawViewState*>(Constants::DRAW_NORMAL_STATE,new DrawViewNormalState(gms) ));
+    states.insert(pair<Constants::DrawViewStateEnum,DrawViewState*>(Constants::DRAW_LINE_STATE,new DrawLineState(gms) ));
+    //設定目前的State唯一般的可拖移State
+    currentState = states[Constants::DRAW_NORMAL_STATE];
     //建立同步事件
-    QObject::connect(this,SIGNAL(GetDrawLinePoints(QPoint,QPoint)),gmsWindow,SLOT(OnGetDrawLinePoints(QPoint,QPoint)));
     QObject::connect(this,SIGNAL(WantedComponentBeSelected(int)),gmsWindow,SLOT(OnWantedEditComponentbeSelected(int)));
+    //從DrawLineSate取得座標 並在發送signal協助傳到Mainwindow
+    QObject::connect(states[Constants::DRAW_LINE_STATE],SIGNAL(SendGetDrawLinePoints(QPoint,QPoint)), gmsWindow,SLOT(OnGetDrawLinePoints(QPoint,QPoint)));
+
 }
 void DrawView::paintEvent(QPaintEvent *){
     QPainter painter(this);
@@ -140,6 +144,8 @@ void DrawView::AddComponentDrawablePositionInfo(string type,string name){
     data.x = x; data.y = y; data.width = width; data.height = height; data.x2 = -1; data.y2 = -1;
     gms->AddDrawableComponentsByCommand(type,name,data);
 }
+
+//加入繪製group時的座標資訊
 void DrawView::AddGroupDrawablePositionInfo(string groupName, vector<int> membersId){
     int i = gms->GetGroups().GetGroupByVectorContainer().size() ;
     int x = Constants::DrawGroupsPositionData::GROUP_BEGIN_X;
@@ -155,88 +161,19 @@ bool DrawView::eventFilter(QObject *object, QEvent *event)
     if (event->type() == QEvent::MouseMove)
     {
         QMouseEvent *e = (QMouseEvent*)event;
-        //如果有按壓到Component物件
-        if(isComponentPressed){
-            //拖移 = 原先的物件座標 + 移動的座標位移差(現在的位移座標 - 原先的座標)
-            dragComponent->SetPositionX(dragComponent->GetPositionX() + (e->pos().x() -componentStartPoint.x()) );
-            dragComponent->SetPositionY(dragComponent->GetPositionY() + (e->pos().y() -componentStartPoint.y()) );
-            //如果是線段要再設定
-            if(dragComponent->GetType() == Constants::ComponentType::LineTypeString){
-                dragComponent->SetLinePositionX2(dragComponent->GetLinePositionX2() + (e->pos().x() -componentStartPoint.x()) );
-                dragComponent->SetLinePositionY2(dragComponent->GetLinePositionY2() + (e->pos().y() -componentStartPoint.y()) );
-
-            }
-            componentStartPoint = e->pos();
-
-        }
-        //如果有按壓到Group物件
-        else if(isGroupPressed){
-            //拖移 = 原先的物件座標 + 移動的座標位移差(現在的位移座標 - 原先的座標)
-            dragGroup->SetPositionX(dragGroup->GetPositionX() + (e->pos().x() -groupStartPoint.x()) );
-            dragGroup->SetPositionY(dragGroup->GetPositionY() + (e->pos().y() -groupStartPoint.y()) );
-            groupStartPoint = e->pos();
-        }
+        currentState->MouseMoveEvent(e->pos()); //State pattern對應目前指令
         this->update();
 
     }
     else if (event->type() == QEvent::MouseButtonPress)
     {
         QMouseEvent *e = (QMouseEvent*)event;
-        //判斷有無拖拉Component
-        vector<Component*> drawComponents = this->gms->GetComponents().GetAllComponent();
-        if(drawComponents.size() >0 ){
-           for(unsigned int i = 0; i < drawComponents.size(); i++){
-               if(drawComponents[i]->CheckBePressed(e->pos().x(), e->pos().y() ) && !isComponentPressed){
-                   isComponentPressed = true;
-                   componentStartPoint = e->pos();
-                   dragComponent = drawComponents[i];
-                   break;
-               }
-           }
-        }
-        //判斷有無拖拉Group
-        vector<Group*> drawGroups = this->gms->GetGroups().GetGroupByVectorContainer();
-        if(drawGroups.size() >0 ){
-            for(unsigned int i = 0; i < drawGroups.size(); i++){
-                if(drawGroups[i]->CheckBePressed(e->pos().x(), e->pos().y() ) && !isGroupPressed){
-                    isGroupPressed = true;
-                    groupStartPoint = e->pos();
-                    dragGroup = drawGroups[i];
-                    break;
-                }
-            }
-        }
-        //如果有加入線段
-        if(isAddLineCommand){
-            if(!isClickStartPoint){
-                isClickStartPoint = true;
-                drawLineStartPoints = e->pos();
-            }
-            else if(!isClickEndPoint){
-                isClickEndPoint = true;
-                drawLineEndPoints = e->pos();
-            }
-        }
-
+        currentState->MousePresseEvent(e->pos());
         this->update();
     }
     else if (event->type() == QEvent::MouseButtonRelease)
     {
-        isComponentPressed = false;
-        isGroupPressed = false;
-        //如果現在是要加入線段
-        if(isAddLineCommand){
-            //如果都有點擊為false
-            if(isClickStartPoint && isClickEndPoint){
-                //發動Signal
-                emit GetDrawLinePoints(drawLineStartPoints,drawLineEndPoints);
-                isClickEndPoint = isClickStartPoint = false;
-            }
-        }
-        else{
-            isClickEndPoint = isClickStartPoint = false;
-        }
-
+        currentState->MouseReleaseEvent();
         this->update();
     }
     else if( event->type() == QEvent::MouseButtonDblClick){
@@ -250,13 +187,14 @@ bool DrawView::eventFilter(QObject *object, QEvent *event)
                }
            }
         }
-        //避免修改完後要切換到drag會座標跑調(因為double click,可能會觸發press的部分)
-        isComponentPressed = false;
-        isGroupPressed = false;
+
     }
     return false;
 }
 //設定是否為加入線段的指令
 void DrawView::SetBeAddedLineComannd(bool decision){
-    isAddLineCommand = decision;
+    if(decision)
+        currentState = states[Constants::DRAW_LINE_STATE];
+    else
+        currentState = states[Constants::DRAW_NORMAL_STATE];
 }
