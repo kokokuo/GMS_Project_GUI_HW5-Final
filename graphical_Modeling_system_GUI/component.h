@@ -38,25 +38,28 @@ public:
 
     void SetPositionX(float x);
     void SetPositionY(float Y);
-    int GetPositionX();
-    int GetPositionY();
+    int GetPositionX(); //取得X座標
+    int GetPositionY(); //取得Y座標
 
+    //設定線段的兩點x,y座標
     bool SetLinePosition(int x1, int y1, int x2, int y2);
-    bool SetLinePositionX2(int x2);
-    bool SetLinePositionY2(int Y2);
-    int GetLinePositionX2();
-    int GetLinePositionY2();
+    bool SetLinePositionX2(int x2); //設定線段的X2座標
+    bool SetLinePositionY2(int Y2); //設定線段的Y2座標
+    int GetLinePositionX2(); //取得X2座標
+    int GetLinePositionY2(); //取得Y2座標
 
-    void SetWidth(int width);
-    void SetHeight(int height);
-    int GetWidth();
-    int GetHeight();
+    void SetWidth(int width); //設定寬
+    void SetHeight(int height); //設定高
+    int GetWidth(); //取得寬
+    int GetHeight(); //取得高
     //確認GUI滑鼠的點擊座標是否有按掉
     bool CheckBePressed(int x, int y);
     //確認有無被設定話圖的座標位置與寬高
     bool CheckBeSettedDrawableData();
 
 private:
+    //用來調整線段的寬高
+    void AdjustWidthAndHeightForLine();
     int id;
     string type;
     string name;

@@ -111,7 +111,6 @@ void MainWindow::OnOpenFileButtonClicked(){
             //更新顯示在ListWidget上的資料
             this->UpdateGroupListWidget(this->gms.GetGroups().GetAllGroups());
         }
-
         //印出載入資料(GUI程式會在應用程式輸出畫面顯示)
         this->gms.OutputComponentsDataByConsole();
         this->gms.OutputGroupsDataByConsole();

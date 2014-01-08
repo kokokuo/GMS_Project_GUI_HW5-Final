@@ -146,3 +146,47 @@ void GMSModel::UnDoAddMembersToGroup(int groupId, vector<int> addMembers){
     //移除剛剛加入的成員
     groups.DeleteMembersFromGroupById(groupId,addMembers);
 }
+//移動Component
+void GMSModel::MoveComponent(int moveId,int x,int y){
+    int oriX,oriY,oriX2,oriY2;
+    //如果是線段,也要改變線段的x2,y2座標
+    if(this->components.GetComponentById(moveId)->GetType() == Constants::ComponentType::LineTypeString){
+        oriX = this->components.GetComponentById(moveId)->GetPositionX();
+        oriY = this->components.GetComponentById(moveId)->GetPositionY();
+        oriX2 = this->components.GetComponentById(moveId)->GetLinePositionX2();
+        oriY2 = this->components.GetComponentById(moveId)->GetLinePositionY2();
+        //x - oriX => 移動的新座標與原先座標的位移差
+        this->components.GetComponentById(moveId)->SetLinePositionX2(oriX2 + (x-oriX) );
+        this->components.GetComponentById(moveId)->SetLinePositionY2(oriY2 + (y-oriY) );
+    }
+    this->components.GetComponentById(moveId)->SetPositionX(x);
+    this->components.GetComponentById(moveId)->SetPositionY(y);
+
+}
+//復原移動Component
+void GMSModel::UnDoMoveComponent(int moveId, int oriX, int oriY){
+    int movedX,movedY,movedX2,movedY2;
+    //如果是線段,也要改變線段的x2,y2座標
+    if(this->components.GetComponentById(moveId)->GetType() == Constants::ComponentType::LineTypeString){
+        movedX = this->components.GetComponentById(moveId)->GetPositionX();
+        movedY = this->components.GetComponentById(moveId)->GetPositionY();
+        movedX2 = this->components.GetComponentById(moveId)->GetLinePositionX2();
+        movedY2 = this->components.GetComponentById(moveId)->GetLinePositionY2();
+        //oriX - movedX => 移動的新座標與原先座標的位移差
+        this->components.GetComponentById(moveId)->SetLinePositionX2(movedX2 + (oriX-movedX) );
+        this->components.GetComponentById(moveId)->SetLinePositionY2(movedY2 + (oriY-movedY) );
+    }
+    this->components.GetComponentById(moveId)->SetPositionX(oriX);
+    this->components.GetComponentById(moveId)->SetPositionY(oriY);
+}
+
+//移動Group
+void GMSModel::MoveGroup(int moveId,int x,int y){
+    this->groups.GetGroupById(moveId)->SetPositionX(x);
+    this->groups.GetGroupById(moveId)->SetPositionY(y);
+}
+//復原移動Group
+void GMSModel::UnDoMoveGroup(int moveId, int oriX, int oriY){
+    this->groups.GetGroupById(moveId)->SetPositionX(oriX);
+    this->groups.GetGroupById(moveId)->SetPositionY(oriY);
+}

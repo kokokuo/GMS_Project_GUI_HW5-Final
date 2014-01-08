@@ -8,6 +8,8 @@ using namespace std;
 class Constants
 {
 public:
+    static void SetComponentWidthHeight(int* height,int* width,string type);
+
     //Component時繪製的座標
     class DrawComponenPositiontData{
     public:

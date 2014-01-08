@@ -19,6 +19,8 @@ private:
     Group* dragGroup; //紀錄被拖移的Group
     QPoint componentStartPoint; //記錄Component拖移的前一個座標
     QPoint groupStartPoint; //記錄Group拖移的前一個座標
+    QPoint componentOriginalPoint; //紀錄拖移的原先座標
+    QPoint groupOriginalPoint; //紀錄拖移的原先座標
 
 };
 

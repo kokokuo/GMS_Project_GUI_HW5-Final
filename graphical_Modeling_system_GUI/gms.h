@@ -16,6 +16,8 @@
 #include "addMembersToGroupCommand.h"
 #include "editComponentNameCommand.h"
 #include "editComponentTypeCommand.h"
+#include "moveComponentCommand.h"
+#include "moveGroupCommand.h"
 #include "constants.h"
 
 using namespace std;
@@ -43,7 +45,10 @@ public:
     void EditComponentTypeByCommand(int id,string newType);
     //刪除Component
     bool DeleteComponentByCommand(int id);
-
+    //移動Component
+    void MoveComponentByCommand(int moveId, int x, int y, int oriX, int oriY);
+    //移動Group
+    void MoveGroupByCommand(int moveId, int x, int y, int oriX, int oriY);
     //取得所有Component
     Components GetComponents();
 

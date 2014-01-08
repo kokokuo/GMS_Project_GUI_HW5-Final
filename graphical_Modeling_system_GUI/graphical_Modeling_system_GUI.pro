@@ -37,7 +37,9 @@ SOURCES += main.cpp\
     addGroupDialog.cpp \
     drawViewState.cpp \
     drawViewNormalState.cpp \
-    drawLineState.cpp
+    drawLineState.cpp \
+    moveComponentCommand.cpp \
+    moveGroupCommand.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -63,7 +65,9 @@ HEADERS  += mainwindow.h \
     addGroupDialog.h \
     drawViewState.h \
     drawViewNormalState.h \
-    drawLineState.h
+    drawLineState.h \
+    moveComponentCommand.h \
+    moveGroupCommand.h
 
 
 FORMS    += mainwindow.ui \

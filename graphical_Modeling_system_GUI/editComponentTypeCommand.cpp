@@ -19,23 +19,11 @@ void EditComponentTypeCommand::execute(){
     this->originalHeight =editComponent->GetHeight();
     //設定新的Type的繪製座標
     this->originalType = model->EditComponentType(editId,editNewComponentType);
-    if(editComponent->GetType() == Constants::ComponentType::CubeTypeString){
-        editComponent->SetWidth(Constants::DrawComponenPositiontData::CUBE_WIDTH);
-        editComponent->SetHeight(Constants::DrawComponenPositiontData::CUBE_HEIGHT);
-    }
-    else if(editComponent->GetType() == Constants::ComponentType::PyramidTypeString){
-        editComponent->SetWidth(Constants::DrawComponenPositiontData::PYRAMID_WIDTH);
-        editComponent->SetHeight(Constants::DrawComponenPositiontData::PYRAMID_HEIGHT);
-    }
-    else if(editComponent->GetType() == Constants::ComponentType::SphereTypeString){
-        editComponent->SetWidth(Constants::DrawComponenPositiontData::SPHERE_WIDTH);
-        editComponent->SetHeight(Constants::DrawComponenPositiontData::SPHERE_HEIGHT);
-    }
-    else if(editComponent->GetType() == Constants::ComponentType::LineTypeString){
-       editComponent->SetWidth(Constants::DrawComponenPositiontData::LINE_WIDTH);
-       editComponent->SetHeight(Constants::DrawComponenPositiontData::LINE_HEIGHT);
-    }
-
+    //設定寬高
+    int width,height;
+    Constants::SetComponentWidthHeight(&height,&width,editComponent->GetType());
+    editComponent->SetWidth(width);
+    editComponent->SetHeight(height);
     //如果原本的是線段,就記錄原先的x,y,因為之後要畫修改的形狀,會以原先線段左上角的rect座標為起始點
     /*如下*是線段
      case1:
@@ -56,10 +44,7 @@ void EditComponentTypeCommand::execute(){
         //設定新的座標
         //並且新的形狀不是Line
         if(model->GetComponents().GetComponentById(editId)->GetType() != Constants::ComponentType::LineTypeString){
-            x1 = model->GetComponents().GetComponentById(editId)->GetPositionX();
-            x2 = model->GetComponents().GetComponentById(editId)->GetLinePositionX2();
-            y1 = model->GetComponents().GetComponentById(editId)->GetPositionY();
-            y2 = model->GetComponents().GetComponentById(editId)->GetLinePositionY2();
+            x1 = this->originalX1; x2 = this->originalX2; y1 = this->originalY1 ; y2 = this->originalY2;
             if(x2 != -1 && x2 < x1){
                //如果不為-1 且比較小,則把x2的座標設為原先x1
                model->GetComponents().GetComponentById(editId)->SetPositionX(x2);

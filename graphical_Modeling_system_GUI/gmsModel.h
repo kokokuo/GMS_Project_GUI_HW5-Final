@@ -50,6 +50,16 @@ public:
     //復原加入members ID到Group
     void UnDoAddMembersToGroup(int groupId,vector<int> addMembers);
 
+    //移動Component
+    void MoveComponent(int moveId,int x,int y);
+    //復原移動Component
+    void UnDoMoveComponent(int moveId, int oriX, int oriY);
+
+    //移動Group
+    void MoveGroup(int moveId,int x,int y);
+    //復原移動Group
+    void UnDoMoveGroup(int moveId, int oriX, int oriY);
+
     //取得所有Component
     Components GetComponents();
 

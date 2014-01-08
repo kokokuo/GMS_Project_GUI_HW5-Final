@@ -64,7 +64,7 @@ void DrawView::paintEvent(QPaintEvent *){
 
                 painter.setPen(Qt::black);
                 painter.drawText(drawComponents[i]->GetPositionX(),drawComponents[i]->GetPositionY()
-                                 ,drawComponents[i]->GetWidth(),drawComponents[i]->GetHeight()+25,Qt::AlignCenter,QString::fromStdString(drawComponents[i]->GetName()));
+                                 ,drawComponents[i]->GetWidth(),drawComponents[i]->GetHeight(),Qt::AlignCenter,QString::fromStdString(drawComponents[i]->GetName()));
             }
         }
     }
@@ -79,6 +79,7 @@ void DrawView::paintEvent(QPaintEvent *){
 
 
 void DrawView::SetLoadedGMSFileDrawPostion(){
+    int width,height;
     //設定座標
     vector<Component*> drawComponents = this->gms->GetComponents().GetAllComponent();
     if(drawComponents.size() >0 ){
@@ -88,24 +89,16 @@ void DrawView::SetLoadedGMSFileDrawPostion(){
                 //設定繪製的相關座標與元件的寬高
                 drawComponents[i]->SetPositionX(Constants::DrawComponenPositiontData::COMPONENT_BEGIN_X);
                 drawComponents[i]->SetPositionY(Constants::DrawComponenPositiontData::COMPONENT_BEGIN_Y + i * Constants::DrawComponenPositiontData::COMPONENT_DIFF_Y);
-                if(drawComponents[i]->GetType() == Constants::ComponentType::CubeTypeString){
-                    drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::CUBE_WIDTH);
-                    drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::CUBE_HEIGHT);
-                }
-                else if(drawComponents[i]->GetType() == Constants::ComponentType::PyramidTypeString){
-                    drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::PYRAMID_WIDTH);
-                    drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::PYRAMID_HEIGHT);
-                }
-                else if(drawComponents[i]->GetType() == Constants::ComponentType::SphereTypeString){
-                    drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::SPHERE_WIDTH);
-                    drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::SPHERE_HEIGHT);
-                }
-                else if(drawComponents[i]->GetType() == Constants::ComponentType::LineTypeString){
+                //如果是Line,再設定第二個點的X,Y座標
+                if(drawComponents[i]->GetType() == Constants::ComponentType::LineTypeString){
                     drawComponents[i]->SetLinePositionX2(Constants::DrawComponenPositiontData::COMPONENT_BEGIN_X + Constants::DrawComponenPositiontData::LINE_WIDTH);
                     drawComponents[i]->SetLinePositionY2(drawComponents[i]->GetPositionY());
-                    drawComponents[i]->SetWidth(Constants::DrawComponenPositiontData::LINE_WIDTH);
-                    drawComponents[i]->SetHeight(Constants::DrawComponenPositiontData::LINE_HEIGHT);
                 }
+                //取得寬高
+                Constants::SetComponentWidthHeight(&height,&width,drawComponents[i]->GetType());
+                drawComponents[i]->SetWidth(width);
+                drawComponents[i]->SetHeight(height);
+
             }
         }
     }
@@ -128,18 +121,9 @@ void DrawView::AddComponentDrawablePositionInfo(string type,string name){
     int width = -1,height = -1;
     //設定繪製的相關座標與元件的寬高
 
-    if(type == Constants::ComponentType::CubeTypeString){
-        width = Constants::DrawComponenPositiontData::CUBE_WIDTH;
-        height = Constants::DrawComponenPositiontData::CUBE_HEIGHT;
-    }
-    else if(type == Constants::ComponentType::PyramidTypeString){
-        width = Constants::DrawComponenPositiontData::PYRAMID_WIDTH;
-        height = Constants::DrawComponenPositiontData::PYRAMID_HEIGHT;
-    }
-    else if(type == Constants::ComponentType::SphereTypeString){
-        width = Constants::DrawComponenPositiontData::SPHERE_WIDTH;
-        height = Constants::DrawComponenPositiontData::SPHERE_HEIGHT;
-    }
+    //取得寬高
+    Constants::SetComponentWidthHeight(&height,&width,type);
+
     DrawableData data;
     data.x = x; data.y = y; data.width = width; data.height = height; data.x2 = -1; data.y2 = -1;
     gms->AddDrawableComponentsByCommand(type,name,data);

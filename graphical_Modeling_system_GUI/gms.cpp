@@ -40,6 +40,15 @@ void GMS::AddDrawableComponentsByCommand(string componentType, string componentN
     cmdManager.execute(addCmd);
 
 }
+
+void GMS::MoveComponentByCommand(int moveId, int x,int y,int oriX,int oriY){
+    MoveComponentCommand* moveComponentCmd = new MoveComponentCommand(&model,moveId,x,y,oriX,oriY);
+    cmdManager.execute(moveComponentCmd);
+}
+void GMS::MoveGroupByCommand(int moveId, int x, int y, int oriX, int oriY){
+    MoveGroupCommand* moveGroupCmd = new MoveGroupCommand(&model,moveId,x,y,oriX,oriY);
+    cmdManager.execute(moveGroupCmd);
+}
 //刪除Component與判斷有無存在
 bool GMS::DeleteComponentByCommand(int id){
     if(this->model.GetComponents().CheckIDHasBeenExisted(id)){

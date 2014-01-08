@@ -45,10 +45,17 @@ void Component::SetComponentType(string type){
     this->type = type;
 }
 void Component::SetPositionX(float x){
-    this->x = x;
+     this->x = x;
+    if(type == Constants::ComponentType::LineTypeString){
+        AdjustWidthAndHeightForLine();
+    }
+
 }
 void Component::SetPositionY(float y){
     this->y = y;
+    if(type == Constants::ComponentType::LineTypeString){
+        AdjustWidthAndHeightForLine();
+    }
 }
 int Component::GetPositionX(){
     return this->x;
@@ -70,10 +77,15 @@ int Component::GetHeight(){
 
 }
 bool Component::CheckBePressed(int x, int y){
-    if(this->type != Constants::ComponentType::LineTypeString  &&  x > this->x && x < this->x + this->width && y < this->y + this->height && y > this->y){
+    if(this->type != Constants::ComponentType::LineTypeString  &&
+            x > this->x && x < this->x + this->width &&
+            y < this->y + this->height && y > this->y){
         return true;
     }
-    else if(this->type == Constants::ComponentType::LineTypeString &&  x > this->x && x < this->x + this->width && y < this->y + this->height +20 && y > this->y){
+    //如果是線段,點擊的位置要在座標的寬與高的區間內
+    else if(this->type == Constants::ComponentType::LineTypeString &&
+            x > this->x - this->width && x < this->x + this->width &&
+            y < this->y + this->height  && y > this->y - + this->height ){
         return true;
     }
     return false;
@@ -89,6 +101,7 @@ bool Component::CheckBeSettedDrawableData(){
 bool Component::SetLinePositionX2(int x2){
     if(type == Constants::ComponentType::LineTypeString){
         this->x2 = x2;
+        AdjustWidthAndHeightForLine();
         return true;
     }
     return false;
@@ -97,6 +110,7 @@ bool Component::SetLinePositionX2(int x2){
 bool Component::SetLinePositionY2(int y2){
     if(type == Constants::ComponentType::LineTypeString){
         this->y2 = y2;
+        AdjustWidthAndHeightForLine();
         return true;
     }
     return false;
@@ -113,11 +127,27 @@ bool Component::SetLinePosition(int x1, int y1, int x2, int y2){
         this->y = y1;
         this->x2 = x2;
         this->y2 = y2;
-
-        this->width = abs(x1 - x2);
-        this->height = abs(y1-y2);
+        AdjustWidthAndHeightForLine();
 
         return true;
     }
     return false;
+}
+void Component::AdjustWidthAndHeightForLine(){
+    //是線段,且第二個座標有數值
+    if(type == Constants::ComponentType::LineTypeString && x2!=-1 && y2!=-1){
+        //調整寬高
+        if(abs(x -x2) < 20 ){
+            this->height = abs(y-y2);
+            this->width = 20;
+        }
+        else if(abs(y-y2) < 20){
+            this->height = 20;
+            this->width = abs(x -x2);
+        }
+        else{
+            this->width = abs(x -x2);
+            this->height = abs(y-y2);
+        }
+    }
 }

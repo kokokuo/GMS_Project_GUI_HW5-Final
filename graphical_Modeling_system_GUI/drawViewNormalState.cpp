@@ -12,6 +12,8 @@ void DrawViewNormalState::MousePresseEvent(QPoint p){
     if(drawComponents.size() >0 ){
        for(unsigned int i = 0; i < drawComponents.size(); i++){
            if(drawComponents[i]->CheckBePressed(p.x(), p.y() ) && !isComponentPressed){
+               componentOriginalPoint.setX(drawComponents[i]->GetPositionX());
+               componentOriginalPoint.setY(drawComponents[i]->GetPositionY());
                isComponentPressed = true;
                componentStartPoint = p;
                dragComponent = drawComponents[i];
@@ -24,6 +26,8 @@ void DrawViewNormalState::MousePresseEvent(QPoint p){
     if(drawGroups.size() >0 ){
         for(unsigned int i = 0; i < drawGroups.size(); i++){
             if(drawGroups[i]->CheckBePressed(p.x(), p.y() ) && !isGroupPressed){
+                groupOriginalPoint.setX(drawGroups[i]->GetPositionX());
+                groupOriginalPoint.setY(drawGroups[i]->GetPositionY());
                 isGroupPressed = true;
                 groupStartPoint = p;
                 dragGroup = drawGroups[i];
@@ -42,7 +46,6 @@ void DrawViewNormalState::MouseMoveEvent(QPoint p){
         if(dragComponent->GetType() == Constants::ComponentType::LineTypeString){
             dragComponent->SetLinePositionX2(dragComponent->GetLinePositionX2() + (p.x() -componentStartPoint.x()) );
             dragComponent->SetLinePositionY2(dragComponent->GetLinePositionY2() + (p.y() -componentStartPoint.y()) );
-
         }
         componentStartPoint = p;
 
@@ -56,6 +59,15 @@ void DrawViewNormalState::MouseMoveEvent(QPoint p){
     }
 }
 void DrawViewNormalState::MouseReleaseEvent(){
-    isComponentPressed = false;
-    isGroupPressed = false;
+    if(isComponentPressed){
+        gms->MoveComponentByCommand(dragComponent->GetID(),dragComponent->GetPositionX(),
+                                    dragComponent->GetPositionY(),componentOriginalPoint.x(),componentOriginalPoint.y());
+        isComponentPressed = false;
+    }
+    if(isGroupPressed){
+        gms->MoveGroupByCommand(dragGroup->GetID(),dragGroup->GetPositionX(),
+                                dragGroup->GetPositionY(),groupOriginalPoint.x(),groupOriginalPoint.y());
+        isGroupPressed = false;
+    }
+
 }

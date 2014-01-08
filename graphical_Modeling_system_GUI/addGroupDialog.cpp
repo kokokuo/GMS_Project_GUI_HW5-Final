@@ -31,7 +31,7 @@ void AddGroupDialog::OnButtonAccepted(){
     bool isInputGroupNameError = false;
     bool isComponentIDNotExisted = false;
     bool isErrorAddMemberFormatInput = false;
-    string memberStr;
+
     vector<int> wantAddMembersId; //使用者想要加入的MembersID
     //檢查ID是否存在於Components
     vector <int> notExistComponentsID;
