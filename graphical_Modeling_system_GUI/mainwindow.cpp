@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setFixedSize(1024,768);
+    this->setFixedSize(1024,700);
     view = new DrawView(&gms,this); //取得GMSModel
 
     //為了畫線而記錄輸入名字時用的,設定為空的
@@ -23,9 +23,10 @@ MainWindow::MainWindow(QWidget *parent) :
     //設定ScrollArea的固定高寬 讓他不要跟著Widget一起變動,然後再設定卷軸
     //Widget再設定更大的寬高(要用SetFixedSize才行) 既可以產生卷軸
 
-    ui->drawViewScrollArea->setFixedSize(710,660);
-    ui->drawViewScrollArea->horizontalScrollBar()->setValue(100);
-    ui->drawViewScrollArea->verticalScrollBar()->setValue(100);
+    ui->drawViewScrollArea->setFixedSize(690,600);
+    //設定滾軸的位置
+    ui->drawViewScrollArea->horizontalScrollBar()->setValue(0);
+    ui->drawViewScrollArea->verticalScrollBar()->setValue(0);
 
     //設定ListWidget的標頭資料
     ui->componentsListWidget->addItem(QString::fromStdString(Constants::GUIMainWindowParameter::COMPONENTS_LIST_WIDGET_HEADER));

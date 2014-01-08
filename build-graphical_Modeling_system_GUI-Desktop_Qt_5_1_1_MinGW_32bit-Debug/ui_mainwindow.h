@@ -54,7 +54,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1024, 768);
+        MainWindow->resize(1016, 701);
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName(QStringLiteral("actionOpen"));
         QIcon icon;
@@ -88,11 +88,11 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         drawViewScrollArea = new QScrollArea(centralWidget);
         drawViewScrollArea->setObjectName(QStringLiteral("drawViewScrollArea"));
-        drawViewScrollArea->setGeometry(QRect(10, 10, 711, 661));
+        drawViewScrollArea->setGeometry(QRect(10, 10, 691, 601));
         drawViewScrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 709, 659));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 689, 599));
         drawViewScrollArea->setWidget(scrollAreaWidgetContents);
         groupsListWidget = new QListWidget(centralWidget);
         groupsListWidget->setObjectName(QStringLiteral("groupsListWidget"));
@@ -103,7 +103,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1024, 25));
+        menuBar->setGeometry(QRect(0, 0, 1016, 25));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);

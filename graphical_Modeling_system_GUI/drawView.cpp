@@ -3,7 +3,7 @@
 
 DrawView::DrawView(GMS *gmsPtr, MainWindow* window)
 {
-    setFixedSize(1280,1080);
+    setFixedSize(1280,1960);
     this->gms = gmsPtr;
     installEventFilter(this);
     this->gmsWindow = window;
