@@ -19,6 +19,8 @@ public:
     //反執行指令
     void unexecute();
 private:
+    void SetLineToOtherType(int width, int height, Component *editComponent); //把線段改成其他類型
+    void SetOtherToLineType(); //把其他類型改成線段
 
     //取得Components(Receiver)用來操作(By Model)
     GMSModel* model;

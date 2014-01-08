@@ -28,72 +28,92 @@ string AddGroupDialog::GetGroupNameText(){
     return this->groupName;
 }
 void AddGroupDialog::OnButtonAccepted(){
-    bool isInputGroupNameError = false;
-    bool isComponentIDNotExisted = false;
-    bool isErrorAddMemberFormatInput = false;
-
-    vector<int> wantAddMembersId; //使用者想要加入的MembersID
+    bool isInputGroupNameError = false; //是否有輸入錯誤
+    bool isComponentIDNotExisted = false; //是否有不存在ComponentId
+    bool isErrorAddMemberFormatInput = false; //是否輸入的格式錯誤
     //檢查ID是否存在於Components
-    vector <int> notExistComponentsID;
+    vector <int> notExistComponentsIDList;
     //檢查Group Name的輸入
-    if(!ui->addGroupNameTextEdit->text().isEmpty()){
-        string temp = ui->addGroupNameTextEdit->text().toStdString();
-        temp.erase(remove(temp.begin(),temp.end(),' '),temp.end()); //清除不必要的空白
-        if(temp.size() >0){
-            groupName = ui->addGroupNameTextEdit->text().toStdString();
-        }
-        else{
-            isInputGroupNameError = true;
-        }
-    }
-    else{
-        isInputGroupNameError = true;
-    }
+    CheckIsInputGroupName(&isInputGroupNameError);
+
     //檢查Member Id的輸入
     if(!ui->addMemberTextEdit->text().isEmpty()){
-        string inputMemberStr = ui->addMemberTextEdit->text().toStdString();
-        //清除不必要的空白
-        inputMemberStr.erase(remove(inputMemberStr.begin(),inputMemberStr.end(),' '),inputMemberStr.end()); //清除不必要的空白
-        //檢查有無輸入錯誤
-        for(unsigned int index =0 ;index <inputMemberStr.size(); index++){
-            if( inputMemberStr[index] == ',')
-                inputMemberStr[index] = ' ' ;
-            if(isalpha(inputMemberStr[index])){
-                isErrorAddMemberFormatInput = true;
-                break;
-           }
-        }
+        string inputMemberStr = CheckInputMemberStrFormat(&isErrorAddMemberFormatInput);
         //輸入格式正確
         if(!isErrorAddMemberFormatInput){
-            stringstream ss;
-            ss << inputMemberStr;
-            int memberId;
-            while(ss >>memberId){
-               //放入想要加入的ID vector
-                wantAddMembersId.push_back(memberId);
-            }
-            //判斷輸入的ID是否是存在的Component
-            for(vector<int>::iterator it = wantAddMembersId.begin();it != wantAddMembersId.end();it++){
-                if(!compareComponents.CheckIDHasBeenExisted( *it ) ) //不存在
-                    notExistComponentsID.push_back(*it );
-            }
-            if(notExistComponentsID.size() >1){
-                isComponentIDNotExisted = true;
-            }
-            else{
-                //沒有問題,加入component ID
-                for(vector<int>::iterator it = wantAddMembersId.begin();it != wantAddMembersId.end();it++){
-                    members.push_back(*it);
-                }
-
-            }
+            //處理輸入的ID是否存在
+           notExistComponentsIDList =  HandleInputMembersIdIsExisted(inputMemberStr,&isComponentIDNotExisted);
         }
     }
     else{
         isErrorAddMemberFormatInput = true;
     }
-    ShowInputErrorMessage(isInputGroupNameError,isErrorAddMemberFormatInput,isComponentIDNotExisted,notExistComponentsID);
+    //顯示訊息
+    ShowInputErrorMessage(isInputGroupNameError,isErrorAddMemberFormatInput,
+                          isComponentIDNotExisted,notExistComponentsIDList);
 }
+
+void AddGroupDialog::CheckIsInputGroupName(bool* isInputGroupNameError){
+    //檢查Group Name的輸入
+    if(!ui->addGroupNameTextEdit->text().isEmpty()){
+        string temp = ui->addGroupNameTextEdit->text().toStdString();
+        temp.erase(remove(temp.begin(),temp.end(),' '),temp.end()); //清除不必要的空白
+        if(temp.size() >0){
+            this->groupName = ui->addGroupNameTextEdit->text().toStdString();
+        }
+        else{
+            *isInputGroupNameError = true;
+        }
+    }
+    else{
+        *isInputGroupNameError = true;
+    }
+}
+string AddGroupDialog::CheckInputMemberStrFormat(bool *IsInputFormatCorrect){
+    string inputMemberStr = ui->addMemberTextEdit->text().toStdString();
+    //清除不必要的空白
+    inputMemberStr.erase(remove(inputMemberStr.begin(),inputMemberStr.end(),' '),inputMemberStr.end());
+    //檢查有無輸入錯誤
+    for(unsigned int index =0 ;index <inputMemberStr.size(); index++){
+        if( inputMemberStr[index] == ',')
+            inputMemberStr[index] = ' ' ;
+        if(isalpha(inputMemberStr[index])){
+            *IsInputFormatCorrect = true;
+            break;
+       }
+    }
+    return inputMemberStr;
+}
+
+vector<int> AddGroupDialog::HandleInputMembersIdIsExisted(string inputMemberStr, bool* IsComponentNotExisted){
+    vector<int> wantAddMembersId; //使用者想要加入的MembersID
+    //檢查ID是否存在於Components
+    vector <int> notExistComponentsIdList;
+
+    stringstream ss;
+    ss << inputMemberStr;
+    int memberId;
+    while(ss >>memberId){
+       //放入想要加入的ID vector
+        wantAddMembersId.push_back(memberId);
+    }
+    //判斷輸入的ID是否是存在的Component
+    for(vector<int>::iterator it = wantAddMembersId.begin();it != wantAddMembersId.end();it++){
+        if(!compareComponents.CheckIDHasBeenExisted( *it ) ) //不存在
+            notExistComponentsIdList.push_back(*it );
+    }
+    if(notExistComponentsIdList.size() >1){
+        *IsComponentNotExisted = true;
+    }
+    else{
+        //沒有問題,加入component ID
+        for(vector<int>::iterator it = wantAddMembersId.begin();it != wantAddMembersId.end();it++){
+            this->members.push_back(*it);
+        }
+    }
+    return notExistComponentsIdList;
+}
+
 void AddGroupDialog::ShowInputErrorMessage(bool groupName, bool inputComponentFormatError, bool componentsNotExist,vector<int> notExistComponents){
     string outputMessage = "";
     if( (groupName || inputComponentFormatError || componentsNotExist) ){

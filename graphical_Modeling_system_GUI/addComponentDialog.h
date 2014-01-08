@@ -24,8 +24,10 @@ private slots:
 private:
     Ui::AddComponentDialog *ui;
     string componentName;
-
-
+    //判斷是否輸入GroupName
+    void CheckIsInputComponentName(bool* IsInputComponentName);
+    //顯示輸入錯誤的訊息
+    void ShowInputErrorMessage(bool IsInputComponentName);
 };
 
 #endif // ADDCOMPONENTDIALOG_H

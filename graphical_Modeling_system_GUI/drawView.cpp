@@ -142,7 +142,19 @@ void DrawView::AddGroupDrawablePositionInfo(string groupName, vector<int> member
 
 bool DrawView::eventFilter(QObject *object, QEvent *event)
 {
-    if (event->type() == QEvent::MouseMove)
+    if( event->type() == QEvent::MouseButtonDblClick){
+        QMouseEvent *e = (QMouseEvent*)event;
+        vector<Component*> drawComponents = this->gms->GetComponents().GetAllComponent();
+        if(drawComponents.size() >0 ){
+           for(unsigned int i = 0; i < drawComponents.size(); i++){
+               if(drawComponents[i]->CheckBePressed(e->pos().x(), e->pos().y() )){
+                   emit WantedComponentBeSelected(drawComponents[i]->GetID());
+                   break;
+               }
+           }
+        }
+    }
+    else if (event->type() == QEvent::MouseMove)
     {
         QMouseEvent *e = (QMouseEvent*)event;
         currentState->MouseMoveEvent(e->pos()); //State pattern對應目前指令
@@ -160,19 +172,7 @@ bool DrawView::eventFilter(QObject *object, QEvent *event)
         currentState->MouseReleaseEvent();
         this->update();
     }
-    else if( event->type() == QEvent::MouseButtonDblClick){
-        QMouseEvent *e = (QMouseEvent*)event;
-        vector<Component*> drawComponents = this->gms->GetComponents().GetAllComponent();
-        if(drawComponents.size() >0 ){
-           for(unsigned int i = 0; i < drawComponents.size(); i++){
-               if(drawComponents[i]->CheckBePressed(e->pos().x(), e->pos().y() )){
-                   emit WantedComponentBeSelected(drawComponents[i]->GetID());
-                   break;
-               }
-           }
-        }
 
-    }
     return false;
 }
 //設定是否為加入線段的指令

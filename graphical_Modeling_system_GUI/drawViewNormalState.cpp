@@ -60,9 +60,12 @@ void DrawViewNormalState::MouseMoveEvent(QPoint p){
 }
 void DrawViewNormalState::MouseReleaseEvent(){
     if(isComponentPressed){
-        gms->MoveComponentByCommand(dragComponent->GetID(),dragComponent->GetPositionX(),
-                                    dragComponent->GetPositionY(),componentOriginalPoint.x(),componentOriginalPoint.y());
+        if( abs(dragComponent->GetPositionX() - componentOriginalPoint.x()) > 2 || abs(dragComponent->GetPositionY() - componentOriginalPoint.y()) > 2 ){
+            gms->MoveComponentByCommand(dragComponent->GetID(),dragComponent->GetPositionX(),
+                                        dragComponent->GetPositionY(),componentOriginalPoint.x(),componentOriginalPoint.y());
+        }
         isComponentPressed = false;
+
     }
     if(isGroupPressed){
         gms->MoveGroupByCommand(dragGroup->GetID(),dragGroup->GetPositionX(),
