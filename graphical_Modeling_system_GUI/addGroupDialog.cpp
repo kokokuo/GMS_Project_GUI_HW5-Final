@@ -52,7 +52,8 @@ void AddGroupDialog::OnButtonAccepted(){
     //檢查Member Id的輸入
     if(!ui->addMemberTextEdit->text().isEmpty()){
         string inputMemberStr = ui->addMemberTextEdit->text().toStdString();
-        memberStr = inputMemberStr;
+        //清除不必要的空白
+        inputMemberStr.erase(remove(inputMemberStr.begin(),inputMemberStr.end(),' '),inputMemberStr.end()); //清除不必要的空白
         //檢查有無輸入錯誤
         for(unsigned int index =0 ;index <inputMemberStr.size(); index++){
             if( inputMemberStr[index] == ',')
