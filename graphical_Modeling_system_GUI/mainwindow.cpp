@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //設定ScrollArea的固定高寬 讓他不要跟著Widget一起變動,然後再設定卷軸
     //Widget再設定更大的寬高(要用SetFixedSize才行) 既可以產生卷軸
-
     ui->drawViewScrollArea->setFixedSize(690,600);
     //設定滾軸的位置
     ui->drawViewScrollArea->horizontalScrollBar()->setValue(0);
@@ -35,23 +34,18 @@ MainWindow::MainWindow(QWidget *parent) :
     //Register synchronous event(SINGAL & SLOT) to close MainWindow
     //by menubar
     QObject::connect(ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
-
     //open FileDialog
     QObject::connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(OnOpenFileButtonClicked()));
-
     //save
     QObject::connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(OnSaveFileButtonClicked()));
-
     //AddComponent
     QObject::connect(ui->actionAddCube,SIGNAL(triggered()),this,SLOT(OnAddCubeComponentClicked()));
     QObject::connect(ui->actionAddPyramid,SIGNAL(triggered()),this,SLOT(OnAddPyramidComponentClicked()));
     QObject::connect(ui->actionAddSphere,SIGNAL(triggered()),this,SLOT(OnAddSphereComponentClicked()));
     QObject::connect(ui->actionAddLine,SIGNAL(triggered()),this,SLOT(OnAddLineComponentClicked()));
-
     //Redo Undo
     QObject::connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(OnRedoClicked()));
     QObject::connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(OnUndoClicked()));
-
     //AddGroup
     QObject::connect(ui->actionAddGroup,SIGNAL(triggered()),this,SLOT(OnAddGroupClicked()));
 
@@ -63,7 +57,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+//更新Component ListWidget的資料
 void MainWindow::UpdateComponentListWidget(vector<Component*> componentList){
     stringstream ss;
     ui->componentsListWidget->clear();
@@ -77,6 +71,7 @@ void MainWindow::UpdateComponentListWidget(vector<Component*> componentList){
         ss.str(""); ss.flush();
     }
 }
+//更新Group ListWidget的資料
 void MainWindow::UpdateGroupListWidget(map<string,Group*> groupList){
     stringstream ss;
     ui->groupsListWidget->clear();
@@ -245,11 +240,17 @@ void MainWindow::OnWantedEditComponentbeSelected(int wantEditId){
     EditComponentDialog dialog;
     dialog.setModal(true);
     dialog.exec();
-    if(!dialog.GetInputNameText().empty() ){
+    //輸入文字,沒已選類型
+    if(!dialog.GetInputNameText().empty() && dialog.GetTypeText() == "Not Edit" ){
         gms.EditComponentNameByCommand(wantEditId,dialog.GetInputNameText());
     }
-    if(dialog.GetTypeText() != "Not Edit" ){
+    //輸入類型沒有選文字
+    else if(dialog.GetInputNameText().empty() && dialog.GetTypeText() != "Not Edit" ){
          gms.EditComponentTypeByCommand(wantEditId,dialog.GetTypeText());
+    }
+    //輸入類型與選文字
+    else if(!dialog.GetInputNameText().empty() && dialog.GetTypeText() != "Not Edit" ){
+         gms.EditComponentNameAndTypeByCommand(wantEditId,dialog.GetInputNameText(),dialog.GetTypeText());
     }
     cout << "\nGet input :" << dialog.GetInputNameText() << endl;
     cout << "\nGet type :" << dialog.GetTypeText() << endl;

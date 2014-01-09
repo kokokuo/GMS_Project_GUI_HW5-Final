@@ -9,6 +9,11 @@
 #include "constants.h"
 using namespace std;
 
+/*
+ *移動元件Command
+ *紀錄移動後滑鼠放開時的座標點與拖移前的原先座標點
+ *如此便可回復到上一個指令
+*/
 class MoveComponentCommand : public Command
 {
 public:

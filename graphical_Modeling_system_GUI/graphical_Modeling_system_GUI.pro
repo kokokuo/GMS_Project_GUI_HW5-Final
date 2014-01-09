@@ -25,8 +25,6 @@ SOURCES += main.cpp\
     commandManager.cpp \
     command.cpp \
     addMembersToGroupCommand.cpp \
-    editComponentNameCommand.cpp \
-    editComponentTypeCommand.cpp \
     addComponentCommand.cpp \
     deleteComponentCommand.cpp \
     addNewGroupCommand.cpp \
@@ -39,7 +37,8 @@ SOURCES += main.cpp\
     drawViewNormalState.cpp \
     drawLineState.cpp \
     moveComponentCommand.cpp \
-    moveGroupCommand.cpp
+    moveGroupCommand.cpp \
+    editComponentCommand.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -56,8 +55,6 @@ HEADERS  += mainwindow.h \
     addMembersToGroupCommand.h \
     addNewGroupCommand.h \
     deleteComponentCommand.h \
-    editComponentNameCommand.h \
-    editComponentTypeCommand.h \
     gms.h \
     constants.h \
     addComponentDialog.h \
@@ -67,7 +64,8 @@ HEADERS  += mainwindow.h \
     drawViewNormalState.h \
     drawLineState.h \
     moveComponentCommand.h \
-    moveGroupCommand.h
+    moveGroupCommand.h \
+    editComponentCommand.h
 
 
 FORMS    += mainwindow.ui \

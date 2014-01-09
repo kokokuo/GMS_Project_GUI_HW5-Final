@@ -113,9 +113,11 @@ void DrawView::SetLoadedGMSFileDrawPostion(){
         }
     }
 }
+//加入Component的繪製資料
 void DrawView::AddComponentDrawablePositionInfo(string type,string name){
-
+    //拿取目前最新加入的元件index
     int i = gms->GetComponents().GetAllComponent().size() ;
+    //透過index設定新的座標
     int x = Constants::DrawComponenPositiontData::COMPONENT_BEGIN_X;
     int y = Constants::DrawComponenPositiontData::COMPONENT_BEGIN_Y + i * Constants::DrawComponenPositiontData::COMPONENT_DIFF_Y;
     int width = -1,height = -1;
@@ -142,12 +144,14 @@ void DrawView::AddGroupDrawablePositionInfo(string groupName, vector<int> member
 
 bool DrawView::eventFilter(QObject *object, QEvent *event)
 {
+    //編輯的滑鼠事件判斷
     if( event->type() == QEvent::MouseButtonDblClick){
         QMouseEvent *e = (QMouseEvent*)event;
         vector<Component*> drawComponents = this->gms->GetComponents().GetAllComponent();
         if(drawComponents.size() >0 ){
            for(unsigned int i = 0; i < drawComponents.size(); i++){
                if(drawComponents[i]->CheckBePressed(e->pos().x(), e->pos().y() )){
+                   //送出被選到要編輯的元件事件
                    emit WantedComponentBeSelected(drawComponents[i]->GetID());
                    break;
                }
@@ -164,12 +168,12 @@ bool DrawView::eventFilter(QObject *object, QEvent *event)
     else if (event->type() == QEvent::MouseButtonPress)
     {
         QMouseEvent *e = (QMouseEvent*)event;
-        currentState->MousePresseEvent(e->pos());
+        currentState->MousePresseEvent(e->pos()); //State pattern對應目前指令
         this->update();
     }
     else if (event->type() == QEvent::MouseButtonRelease)
     {
-        currentState->MouseReleaseEvent();
+        currentState->MouseReleaseEvent(); //State pattern對應目前指令
         this->update();
     }
 

@@ -13,8 +13,7 @@ MoveComponentCommand::~MoveComponentCommand(){
 
 }
 void MoveComponentCommand::execute(){
-    //取得原先座標
-
+    //移動
     model->MoveComponent(moveId,moveX,moveY);
 }
 void MoveComponentCommand::unexecute(){

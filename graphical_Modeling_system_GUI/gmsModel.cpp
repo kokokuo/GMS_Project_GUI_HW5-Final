@@ -159,6 +159,7 @@ void GMSModel::MoveComponent(int moveId,int x,int y){
         this->components.GetComponentById(moveId)->SetLinePositionX2(oriX2 + (x-oriX) );
         this->components.GetComponentById(moveId)->SetLinePositionY2(oriY2 + (y-oriY) );
     }
+    //改變x,y座標
     this->components.GetComponentById(moveId)->SetPositionX(x);
     this->components.GetComponentById(moveId)->SetPositionY(y);
 
@@ -176,6 +177,7 @@ void GMSModel::UnDoMoveComponent(int moveId, int oriX, int oriY){
         this->components.GetComponentById(moveId)->SetLinePositionX2(movedX2 + (oriX-movedX) );
         this->components.GetComponentById(moveId)->SetLinePositionY2(movedY2 + (oriY-movedY) );
     }
+    //復原x,y座標
     this->components.GetComponentById(moveId)->SetPositionX(oriX);
     this->components.GetComponentById(moveId)->SetPositionY(oriY);
 }

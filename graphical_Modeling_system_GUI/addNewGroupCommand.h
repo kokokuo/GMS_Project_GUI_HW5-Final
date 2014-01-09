@@ -15,6 +15,7 @@ class AddNewGroupCommand :public Command
 public:
     //建構子 取得執行指令所需的資料
     AddNewGroupCommand(GMSModel* model,string name, vector<int> members);
+    //新增Group,同時包含新增時顯示在圖上的座標寬高等資訊
     AddNewGroupCommand(GMSModel* model,string name, vector<int> members,DrawableData data);
     ~AddNewGroupCommand();
     //執行指令

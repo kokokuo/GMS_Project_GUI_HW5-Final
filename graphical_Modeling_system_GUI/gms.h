@@ -14,8 +14,7 @@
 #include "deleteComponentCommand.h"
 #include "addNewGroupCommand.h"
 #include "addMembersToGroupCommand.h"
-#include "editComponentNameCommand.h"
-#include "editComponentTypeCommand.h"
+#include "editComponentCommand.h"
 #include "moveComponentCommand.h"
 #include "moveGroupCommand.h"
 #include "constants.h"
@@ -40,9 +39,10 @@ public:
 
     //編輯Component名稱
     void EditComponentNameByCommand(int id,string newName);
-
     //編輯Component Type
     void EditComponentTypeByCommand(int id,string newType);
+    //編輯Component 名稱與Type
+    void EditComponentNameAndTypeByCommand(int id,string newName,string newType);
     //刪除Component
     bool DeleteComponentByCommand(int id);
     //移動Component
@@ -85,6 +85,7 @@ public:
     bool Redo(); //回傳true表示執行成功,否之師失敗(可能redo到最新的指令)
     bool Undo(); //回傳true表示執行成功,反之則失敗(可能uedo到stack沒資料)
 
+    //印出資料到應用程式輸出對話框(cout)
     void OutputComponentsDataByConsole();
     void OutputGroupsDataByConsole();
 

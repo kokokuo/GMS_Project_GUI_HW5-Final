@@ -35,7 +35,7 @@ string EditComponentDialog::GetTypeText(){
     return this->type;
 }
 void EditComponentDialog::OnButtonAccepted(){
-
+    //判斷有無輸入文字
     if(ui->editNameTextEdit->isEnabled() && !ui->editNameTextEdit->text().isEmpty()){
         string temp = ui->editNameTextEdit->text().toStdString();
         temp.erase(remove(temp.begin(),temp.end(),' '),temp.end()); //清除不必要的空白
@@ -47,6 +47,7 @@ void EditComponentDialog::OnButtonAccepted(){
     this->type = ui->editTypeComboBox->currentText().toStdString();
 
 }
+
 void EditComponentDialog::OnSelectEditName(){
     if(ui->checkEditName->isChecked()){
         ui->editNameTextEdit->setEnabled(true);

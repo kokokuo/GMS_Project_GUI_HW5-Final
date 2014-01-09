@@ -16,7 +16,6 @@ AddNewGroupCommand::AddNewGroupCommand(GMSModel* model,string name, vector<int> 
        this->addMembers.push_back((*it));
     }
     this->model = model;
-
     this->x = data.x;
     this->y = data.y;
 

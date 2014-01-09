@@ -19,14 +19,19 @@ int GMS::LoadXMLFormatRecord(string path){
     return code;
 }
 
+//編輯Component 名稱與Type
+void GMS::EditComponentNameAndTypeByCommand(int id,string newName,string newType){
+    EditComponentCommand *editNameAndTypeCmd = new EditComponentCommand(&model,id,newName,newType);
+    cmdManager.execute(editNameAndTypeCmd);
+}
+
 void GMS::EditComponentNameByCommand(int id, string newName){
-    EditComponentNameCommand *editNameCmd = new EditComponentNameCommand(&model,id,newName);
+    EditComponentCommand *editNameCmd = new EditComponentCommand(&model,id,newName);
     cmdManager.execute(editNameCmd);
 }
 void GMS::EditComponentTypeByCommand(int id, string newType){
-    EditComponentTypeCommand *editTypeCmd = new EditComponentTypeCommand(&model,id,newType);
+    EditComponentCommand *editTypeCmd = new EditComponentCommand(&model,newType,id);
     cmdManager.execute(editTypeCmd);
-
 }
 void GMS::AddComponentsByCommand(string componentType, string componentName){
     //使用Command加入

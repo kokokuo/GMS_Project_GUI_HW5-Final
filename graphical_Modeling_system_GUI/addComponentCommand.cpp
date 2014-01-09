@@ -14,6 +14,7 @@ AddComponentCommand::AddComponentCommand(GMSModel* model, string componentType, 
     this->addComponentType = componentType;
     this->AddName = componentName;
     this->model = model;
+    //設定繪製的資料
     this->width = data.width;
     this->height = data.height;
     this->x1 = data.x;
@@ -30,11 +31,11 @@ AddComponentCommand::~AddComponentCommand(){
 void AddComponentCommand::execute(){
     model->AddComponents(addComponentType,AddName,&addedId);
     Component* addComponent = model->GetComponents().GetComponentById(addedId);
-
+    //如果是線段,用另外的方法加入
     if(addComponent->GetType() == Constants::ComponentType::LineTypeString){
         addComponent->SetLinePosition(x1,y1,x2,y2);
     }
-    else{
+    else{ //否則是一般元件,設定左上角座標與寬高
         addComponent->SetPositionX(x1);
         addComponent->SetPositionY(y1);
         addComponent->SetWidth(width);

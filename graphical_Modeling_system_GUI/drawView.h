@@ -15,6 +15,10 @@
 
 class MainWindow;
 
+/*此類別用來
+ *1.繪圖
+ *2.設定繪製時的座標
+ *3.取得滑鼠點擊事件的類別*/
 class DrawView : public QWidget
 {
     Q_OBJECT

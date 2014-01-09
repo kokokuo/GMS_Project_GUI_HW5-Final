@@ -12,8 +12,6 @@ INPUT(
 ./release\commandManager.o
 ./release\command.o
 ./release\addMembersToGroupCommand.o
-./release\editComponentNameCommand.o
-./release\editComponentTypeCommand.o
 ./release\addComponentCommand.o
 ./release\deleteComponentCommand.o
 ./release\addNewGroupCommand.o
@@ -27,6 +25,7 @@ INPUT(
 ./release\drawLineState.o
 ./release\moveComponentCommand.o
 ./release\moveGroupCommand.o
+./release\editComponentCommand.o
 ./release\qrc_asset.o
 ./release\moc_mainwindow.o
 ./release\moc_drawView.o

@@ -35,7 +35,6 @@ public:
     void SetComponentType(string type); //設定類型
 
     //GUI用 設定座標
-
     void SetPositionX(float x);
     void SetPositionY(float Y);
     int GetPositionX(); //取得X座標

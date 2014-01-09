@@ -16,6 +16,7 @@ public:
     void MouseMoveEvent(QPoint p);
     void MouseReleaseEvent();
 signals:
+    //當取得兩個座標點後,便發送信號給DrawView,請DrawViw傳送給MainWindows,呼叫GMS時做建立Line Component
     void SendGetDrawLinePoints(QPoint,QPoint);
 private:
     bool isClickStartPoint,isClickEndPoint;

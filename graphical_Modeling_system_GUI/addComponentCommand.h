@@ -16,6 +16,7 @@ class AddComponentCommand :public Command
 public:
     //建構子 取得執行指令所需的資料
     AddComponentCommand(GMSModel* model, string componentType, string componentName);
+    //新增Component,同時包含新增時顯示在圖上的座標寬高等資訊
     AddComponentCommand(GMSModel* model, string componentType, string componentName,DrawableData data);
     ~AddComponentCommand();
     //執行指令
@@ -31,6 +32,7 @@ private:
     string AddName;
     //要加入時的ID編號
     int addedId;
+    //座標寬高資料
     int x1,x2,y1,y2;
     float width,height;
 };
