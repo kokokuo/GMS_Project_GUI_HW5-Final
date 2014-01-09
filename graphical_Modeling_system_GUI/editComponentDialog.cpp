@@ -42,10 +42,17 @@ void EditComponentDialog::OnButtonAccepted(){
         if(temp.size() >0){
             componentName = ui->editNameTextEdit->text().toStdString();
         }
-
     }
+    //取得Type
     this->type = ui->editTypeComboBox->currentText().toStdString();
-
+    //顯示警告
+    if(type == "Not Edit" && (ui->editNameTextEdit->text().isEmpty() || !ui->editNameTextEdit->isEnabled()) ){
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Warning");
+        msgBox.setText("You don't edit anything");
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.exec();
+    }
 }
 
 void EditComponentDialog::OnSelectEditName(){
