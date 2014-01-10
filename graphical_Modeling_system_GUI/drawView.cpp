@@ -94,11 +94,13 @@ void DrawView::SetLoadedGMSFileDrawPostion(){
                     drawComponents[i]->SetLinePositionX2(Constants::DrawComponenPositiontData::COMPONENT_BEGIN_X + Constants::DrawComponenPositiontData::LINE_WIDTH);
                     drawComponents[i]->SetLinePositionY2(drawComponents[i]->GetPositionY());
                 }
-                //取得寬高
-                Constants::SetComponentWidthHeight(&height,&width,drawComponents[i]->GetType());
-                drawComponents[i]->SetWidth(width);
-                drawComponents[i]->SetHeight(height);
+                else{
+                    //取得寬高
+                    Constants::SetComponentWidthHeight(&height,&width,drawComponents[i]->GetType());
+                    drawComponents[i]->SetWidth(width);
+                    drawComponents[i]->SetHeight(height);
 
+                }
             }
         }
     }

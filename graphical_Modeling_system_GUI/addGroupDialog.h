@@ -20,9 +20,9 @@ class AddGroupDialog : public QDialog
 public:
     explicit AddGroupDialog(QWidget *parent = 0);
     ~AddGroupDialog();
-    string GetGroupNameText();
-    vector<int> GetAddMembersId();
-    void SetComponents (Components components);
+    string GetGroupNameText(); //取得輸入的GroupName
+    vector<int> GetAddMembersId(); //取得輸入的Members
+    void SetComponents (Components components); //設定給Dialog的Component,用來判斷有那些MemberId不存在
 private:
     //判斷是否輸入GroupName
     void CheckIsInputGroupName(bool* IsInputGroupName);

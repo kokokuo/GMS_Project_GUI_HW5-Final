@@ -139,10 +139,10 @@ void Component::AdjustWidthAndHeightForLine(){
         //調整寬高
         if(abs(x -x2) < 20 ){
             this->height = abs(y-y2);
-            this->width = 20;
+            this->width = 40;
         }
         else if(abs(y-y2) < 20){
-            this->height = 20;
+            this->height = 40;
             this->width = abs(x -x2);
         }
         else{
