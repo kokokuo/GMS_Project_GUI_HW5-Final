@@ -2,7 +2,8 @@ GMS_Project_GUI_HW5-Final
 ==========================
 **Introdution:**
 
-This repo is from GMS_Project(GUI HW4) which has more completed function ex:redo,undo,add component,drag component and so on.
+This repo is from GMS_Project_GUI_HW4 which has more  functions 
+ex:redo,undo,add component,drag component and so on.
 
 **Developerment Enviroment:**
 
@@ -16,3 +17,7 @@ This repo is from GMS_Project(GUI HW4) which has more completed function ex:redo
 
 **ScreenShot:**
 
+![](https://github.com/yi-cheng-kuo/GMS_Project_GUI_HW5-Final/blob/master/sreenchot/Add_line.png?raw=true)
+
+
+![](https://github.com/yi-cheng-kuo/GMS_Project_GUI_HW5-Final/blob/master/sreenchot/add-group-1.png?raw=true)
